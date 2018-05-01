@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>PennMUSH 1.8.0 Changelog</title>
+ <link rel="stylesheet" href="mushdoc.css">
+</head>
+<body>
+<header>
+<h1 class="title">PennMUSH 1.8.0 Changelog</h1>
+</header>
+<hr>
+<h2>Version 1.8.0 patchlevel 13 (July 5, 2006)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Crash bug in <code>pcreate()</code> fixed. Report by Phreq<code>@M</code>*U*S*H.</li>
+  <li>Crash bug in <code>setunion()</code> fixed. Report by Gurenk<code>@ST</code>:Legacy.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 12 (March 25, 2006)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>New config option keepalive_timeout for setting the socket-level are-you-there ping interval used to help work around broken routers. <b>[SW]</b></li>
+  <li>Changing the SO_KEEPALIVE interval works on more OSes, including OS X. <b>[SW]</b></li>
+  <li>Passwords are masked when commands that require them are logged in command.log. Suggested by <em>Sumta</em>. <b>[SW]</b></li>
+  <li>Added help entry for <code>@debugforwardlist</code>. Suggested by <em>d&#39;Ark<code>@M</code>*U*S*H</em>.</li>
+  <li>Help fixes by Talvo<code>@M</code>*U*S*H.</li>
+  <li>When objects are nuked, their creation time is reset to 0.  This prevents garbage objects from maintaining the same objid. Suggested by <em>Cooee<code>@PDX</code></em></li>
+  <li>When doing english-style matching, plain numbers (&#39;3&#39;) were treated as adjectives (like &#39;3rd&#39;) and shouldn&#39;t have been. Fixed. Reported by <em>Stinky<code>@M</code>*U*S*H</em>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 11 (February 25, 2006)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Help clarification to ancestors inspired by Viceroy<code>@GuiltyPleasures</code>. <b>[TAP]</b></li>
+  <li>Help clarification in <code>@set</code> by Skaven<code>@M</code>*U*S*H.</li>
+  <li>Freebsd hints files combined and simplified.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 10 (January 29, 2006)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>Row and field separators in <code>sql()</code> may now by more than one character. Patch by Walker<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Fix to GNU libc detection in Configure by Petr Salinger.</li>
+  <li>Definition of MAILER in options.h.dist made to work by Luke<code>@M</code>*U*S*H.</li>
+  <li>Fix to double-parsing of row and field separators in <code>sql()</code> by Walker<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 9 (December 12, 2005)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>On amd64 systems running FreeBSD (and possibly others), connections could break after about 32 connections. Report by nails<code>@M</code>*U*S*H.</li>
+  <li>The CONF and CONFGROUP structures are renamed PENNCONF and PENNCONFGROUP to work around brokenness in Debian&#39;s openssl0.9.8 package.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 8 (September 15, 2005)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>/noflagcopy switch to <code>@cpattr/</code><code>@mvattr</code> works now. Report by Kimiko Muffin.</li>
+  <li>SHS encryption now works on 64-bit architectures that define uint32_t. Report by Licenser<code>@M</code>*U*S*H.</li>
+  <li>MySQL detection by Configure was accidentally removed in 1.8.0p7/1.8.1p2. It&#39;s back. Report by Walker<code>@M</code>*U*S*H. Same applies to SO_KEEPIDLE and some other Configure units.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 7 (August 29, 2005)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>lsearch()</code> with no results no longer returns #-1. It still does so when there&#39;s an error. Suggested by <em>Nathan Baum</em>. <b>[SW]</b></li>
+  <li>Improved messages for <code>@link</code> of exits. Report by Nathan Baum. <b>[SW]</b></li>
+  <li>Restart script more portable to older bourne-like shells. Patch by Walker<code>@M</code>*U*S*H.</li>
+  <li>Fix to MinGW reboot. Patch by Nathan Baum.</li>
+  <li>Help fixes by Tyr<code>@M</code>*U*S*H, Talvo<code>@M</code>*U*S*H, Dizzy<code>@Forgotten</code> Time, and Trinsec<code>@M</code>*U*S*H.</li>
+  <li><code>@flag/add</code> of a flag with a name that is a unique prefix of an existing  flag wouldn&#39;t add the new flag. Reported by <em>Mike Griffiths</em>. <b>[SW]</b></li>
+  <li><code>@config/set</code> of an invalid option would still return a success message. Report by Sholevi<code>@M</code>*U*S*H. <b>[SW]</b></li>
+  <li><code>sql()</code> without a field delimiter defaulted to using the row delimiter, instead of a space. Report by Kali<code>@M</code>*U*S*H.</li>
+  <li><code>lock()</code> didn&#39;t set user-defined locks properly. Report by  Dahan<code>@M</code>*U*S*H. <b>[SW]</b></li>
+  <li>Infinite loop in <code>fraction()</code> fixed.</li>
+  <li>FIXED players may no longer teleport through exits. Report by Anyasha<code>@bDv2</code></li>
+  <li>Better messages when attempting to wipe SAFE attributes. Suggested by <em>Nathan Baum</em>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 6 (June 24, 2005)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Weird logging ouput with function logargs fixed. Report by Sholevi<code>@M</code>*U*S*H.</li>
+  <li><code>sort()</code> and set functions now ignore ansi. Patch by Walker<code>@M</code>*U*S*H.</li>
+  <li><code>@hook</code> memory leak fixed. Reported by <em>Shari<code>@M</code>*U*S*H</em>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 5 (May 30, 2005)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>help substitutions{2,3,4} aliased to help %{2,3,4} respectively for convenience. Suggested by <em>Tokeli<code>@M</code>*U*S*H</em>.</li>
+  <li>help for <code>ulocal()</code> clarified. Suggested by <em>Dahan<code>@M</code>*U*S*H</em>.</li>
+  <li>help fixes by Sketch<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>next()</code> on a thing or player behaved improperly. Reported by <em>Sketch<code>@M</code>*U*S*H</em>.</li>
+  <li>ancestor_* config options allow dbref specified with #&lt;n&gt; as well as just &lt;n&gt;. Suggested by <em>Nathan Baum</em>.</li>
+  <li>New MSVC6 project files. <b>[EEH]</b></li>
+  <li>NUMVERSION no longer starts with a 0, which made some compilers think it might be an octal constant. Suggested by <em>Shane DeRidder</em>.</li>
+  <li><code>@attribute</code> did not check for validity of attribute names before adding them. Report by Dahan<code>@M</code>*U*S*H.</li>
+  <li>#&lt;dbref&gt; &lt;action&gt; forces ignored <code>@hooks</code>. Report by Mike Griffiths.</li>
+  <li>access.cnf checks attempt to check against ipv6-ized versions of ip addresses listed in sitelocks as well.</li>
+  <li>Sort of dbrefs in <code>@oemit</code> was broken, which could lead to   multiple messages to same target. Report by Cheetah<code>@M</code>*U*S*H. <b>[TAP]</b></li>
+  <li>Setting a password ending in % is now feasible. Report by Marc  DVer <b>[TAP]</b>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 4 (March 20, 2005)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>@list</code> powers crashed the MUSH. Report by Kevin<code>@M</code>*U*S*H.</li>
+  <li>Multiplayer whisper-poses now use the correct conjugation of the verb &quot;to sense&quot;. Suggested by <em>Cheetah<code>@M</code>*U*S*H</em>.</li>
+  <li><code>@attribute</code> NAME and <code>@attribute</code> <code>@NAME</code> can both be used to display  information about attributes. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 3 (February 26, 2005)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>1.8.0p2 fixed &quot;&quot;hi when chat_strip_quote was on, and broke it when it was off. Fixed both ways now. Report by Cheetah<code>@M</code>*U*S*H.</li>
+  <li>The <code>@break</code> fix in 1.8.0p2 stopped compound break actions in {}&#39;s from working correctly. Fixed now. Report by  Kevin<code>@M</code>*U*S*H. <b>[TAP]</b></li>
+  <li><code>@list/list</code>() works right with flags/powers now.</li>
+  <li>MS VS.NET project file now includes sql.c/h and bufferq.c/h. Report by T&#39;orA<code>@M</code>*U*S*H.</li>
+  <li><code>playermem()</code> and <code>objectmem()</code> now return #-1 NO MATCH consistently when they can&#39;t match their argument to an object of an appropriate type. Suggested by <em>Cheetah<code>@M</code>*U*S*H</em>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 2 (February 2, 2005)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>@break/</code><code>@assert</code> could double-evaluate the right side. Patch by Walker<code>@M</code>*U*S*H.</li>
+  <li>&quot;&quot;hi didn&#39;t produce the right output. Patch by Walker<code>@M</code>*U*S*H.</li>
+  <li>Better output for <code>@warn</code> me=none and invalid warning lists. Suggested by <em>T&#39;orA<code>@M</code>*U*S*H</em></li>
+  <li>Help fix by Meyer<code>@M</code>*U*S*H.</li>
+  <li>Bug in reading dbs when no chatdb present. Discovered by Benigo<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 1 (January 16, 2005)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Win32 portability fixes. NT_TCP builds work again, too. <b>[EEH]</b></li>
+  <li>pennv180.hlp file added to MANIFEST so it&#39;s distributed now. Report by Nymeria<code>@M</code>*U*S*H.</li>
+  <li>More translation files included. <b>[EEH]</b></li>
+  <li>Help fixes by <b>[EEH]</b> and Chili<code>@M</code>*U*S*H.</li>
+  <li><code>cflags()</code> now shows the N (nonames), T (notitles), and C (nocemit) flags for channels. Suggested by <em>Prospero<code>@Metro</code></em>.</li>
+  <li>If A can&#39;t receive from B (due to interactions), then A&#39;s puppet would send a null line when it heard B. Now the puppet doesn&#39;t send at all. Fix by Prospero<code>@Metro</code>.</li>
+  <li>Multiple simultaneous flag sets behaved oddly when one of the flags affected listener/hearer status. Report by Cheetah<code>@M</code>*U*S*H.</li>
+  <li>NUMVERSION corrected.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.0 patchlevel 0 (January 1, 2005)</h2>
+
+  <li>SQL support (MySQL server).</li>
+  <li>SSL support.</li>
+  <li>Attribute trees.</li>
+  <li>Object ids uniquely identify an object across recycling dbrefs.</li>
+  <li>Anonymous attributes via #lambda.</li>
+  <li>Ancestor objects for each object type.</li>
+  <li>Interactions (something like &quot;realms&quot; in mux2) control conditions under which objects can see, hear, match, or establish the presence of each other. See local.c.</li>
+  <li>New flag/power internals, no more limits on number of flags,  flags can be added/removed at runtime.</li>
+  <li>New game/chat db formats, more readable, extensible, and  better at detecting problems.</li>
+  <li>New framework for performing lock failure activities in hardcode.</li>
+  <li>Customized mush.cnf configuration parameters can be easily added.</li>
+  <li>New chunk memory allocator does our own paging to disk, so the resident memory footprint is much lower.</li>
+  <li>Lock system rewrite. #true and #false atoms for locks.</li>
+  <li>minimal.db is no more. If you start up the server and there&#39;s no db to be found, it creates a new minimal database in memory.</li>
+  <li>New commands: <code>@command/alias</code>, buy, <code>@boot/silent</code>, <code>@assert</code>, huh_command, <code>@decomp/prefix</code>, <code>@edit/first</code>, ex/parent, empty, <code>@nscemit</code>, <code>@function</code>,  <code>@nsemit</code>, <code>@nsoemit</code>, <code>@nslemit</code>, <code>@nsremit</code>, <code>@nszemit</code>, ], <code>@command/add</code>, <code>@command/del</code>, warn_on_missing, <code>@switch/regexp</code>, @*emit/spoof, <code>@tel/inside</code>, <code>@hook/ignore</code>, <code>@hook/override</code>, <code>@chan/recall</code>, with/room, IDLE, <code>@sitelock/check</code>, SCREENWIDTH, SCREENHEIGHT, ex/all</li>
+  <li>New functions: zwho, zmwho, l/lv/n/nv/x/xvthings, malias, locks, llocks, lset, lockflags, llockflags, lattrp, nattr/p, xattr/p, mailsend, x/xv/n/nv/exits/players/things, nsemit/cemit/remit/lemit/oemit/zemit, andlflags, andlpowers, orlflags, orlpower, andpowers, orpowers, align, sent, recv, scan, valid, allof, firstof, tr, vcross, hostname, ipaddr, cmds, reswitch*, digest, cowner, baseconv, randword, trimtiny, trimpenn, terminfo, lports, strreplace, fraction, root, children, accname, lpos, width, height</li>
+  <li>New behaviors: <code>@adisconnect</code>, No_Pay, <code>@name</code>, <code>@lock/speech</code>, examine, <code>@cemit</code>, give, <code>@cost</code>, SUSPECT, <code>@startup</code>, <code>escape()</code>, <code>time()</code>, <code>merge()</code>, <code>@set</code>, move, <code>@name</code>, <code>etimefmt()</code>, <code>insert()</code>, PUPPET, help, rand, DEBUG, TERSE, <code>powers()</code>, <code>@config/set</code>, <code>@function/restrict</code>, %~, <code>@lock/leave</code>, <code>tel()</code>, <code>@descformat</code>, <code>@idescformat</code>, <code>@aconnect</code></li>
+  <li><code>@lock/interact</code> can prevent other players from transmitting any normal sound to you (that is, you won&#39;t hear them speak, pose,  emit, etc., like gagging them in a client). </li>
+  <li>New flags: HEAVY, ORPHAN, MISTRUST</li>
+  <li>New powers: Debit, Can_NSPemit</li>
+  <li>New attribute flags: NO_NAME, NO_SPACE, DEBUG, NEARBY, PUBLIC, VEILED</li>
+  <li>New channel flags: Notitles, Nonames, Nocemit</li>
+  <li>You can log setting/resetting of flags/powers, as well as individual commands or function calls.</li>
+  <li>Rolling activity log dumped on panic dumps or visible with <code>@uptime</code>.</li>
+  <li>A new test harness for developing regression test suites in perl for PennMUSH is now included; few test suites are. If you can figure out how to use this, write some tests for us!</li>
+  <li>More and better telnet negotiation.</li>
+  <li>Many internal improvements. Many old compile-time options removed or replaced by run-time options. Source code commenting using doxygen. Improved internationalization.</li>
+  <li>New config directives: unconnected_idle_timeout, max_guests, max_global_fns, read_remote_desc, default_home</li>
+  <li>The LFAIL/OLFAIL/ALFAIL messages are activated whenever a <code>@lock/leave</code> is checked and failed, not just when a &#39;leave&#39; command fails. (So they work for failed attempts to leave rooms by exits/<code>@tel</code>). Suggested by <em>Zith<code>@Lovarii</code></em>.</li>
+  <li>Help for <code>grab()</code> now references <code>graball()</code>. Report by Sketch<code>@M</code>*U*S*H.</li>
+  <li>Reference to &#39;ducats&#39; in code replaced by appropriate plural currency unit. Report by Kinumi<code>@ShoujoAi</code>.</li>
+</body>
+</html>

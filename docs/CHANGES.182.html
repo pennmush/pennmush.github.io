@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>PennMUSH 1.8.2 Changelog</title>
+ <link rel="stylesheet" href="mushdoc.css">
+</head>
+<body>
+<header>
+<h1 class="title">PennMUSH 1.8.2 Changelog</h1>
+</header>
+<hr>
+<h2>Version 1.8.2 patchlevel 8 (Jan 01, 2008)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>&#39;make versions&#39; now provides some feedback.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>width()</code> and <code>height()</code> do not return 0 when set to invalid input. By Talvo.</li>
+  <li>Array underflow bug found by running under Valgrind.</li>
+  <li>Crash bug when too many objects are nested. Reported by <em>Paige</em>, fixed by Javelin and Intervis.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.2 patchlevel 7 (October 6, 2007)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li><code>nwho()</code> now takes an optional viewer argument like <code>lwho()</code>. By Sketch.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Clarified the behavior of <code>eval()</code> and <code>get_eval()</code> in help. Suggested by <em>Talvo and Javelin</em>.</li>
+  <li>A failed db save no longer broadcasts a success message in addition to a failure one. Reported by <em>Cooee</em>.</li>
+  <li>The open database file wasn&#39;t getting closed on a failed save.</li>
+  <li>Crash bug in <code>sortkey()</code>. Fix by Nathan Baum.</li>
+  <li>Crash bug in pathological container cases reported by Paige<code>@M</code>*U*S*H fixed by Javelin.</li>
+  <li>&#39;help <code>@desc</code>&#39; brings up <code>@describe</code> instead of <code>@descformat</code>. Suggested by <em>Nymeria</em>.</li>
+  <li>Removed mention of Win32 requiring a particular attribute compression algorithm. Any will work, and always have. Reported by <em>Andrew Klein</em>.</li>
+  <li>Crash bug in <code>@purge</code>. Javelin.  </li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.2 patchlevel 6 (July 9, 2007)</h2>
+
+<h3>Development team changes</h3>
+
+ <ul>
+  <li>After many years of valuable work, Talek has retired from development.  </li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>Removed the gmalloc malloc option. <b>[SW]</b></li>
+  <li>KEEPALIVE flag makes the server send a telnet NOP after a short period of inactivity; helps prevent timeouts from NAT/router devices with a short timeout. <b>[MUX]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Fixed assorted small memory leaks. <b>[SW]</b></li>
+  <li>Fix to <code>fraction()</code> when dealing with numbers that can&#39;t be fractioned. Discovered by Ashen-Shugar. <b>[GM]</b></li>
+  <li>Fixed handling of telnet NOPs sent by clients. <b>[SW]</b></li>
+  <li>The OpenSSL random number pool wasn&#39;t getting adequately initialized on systems without /dev/urandom <b>[SW]</b></li>
+  <li>Infinite loop in math code. Reported by <em>Ashen-Sugar</em>. <b>[GM]</b></li>
+  <li>mkvershlp.pl skips over emacs backup files.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.2 patchlevel 5 (June 13, 2007)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>Assorted gcc warning fixes. <b>[SW]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Cleaned up some unsafe signal handler functions. <b>[SW]</b></li>
+ </ul>
+
+<h3>Help files</h3>
+
+ <ul>
+  <li>Mention examine lock in help <code>lattr()</code>. Talvo.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.2 patchlevel 4 (May 16, 2007)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li><code>speak()</code> uses accented names. Sketch.</li>
+  <li><code>config()</code> no longer lists options that can&#39;t be set with <code>@config/set</code>. Suggested by <em>Trispis</em>. <b>[SW]</b></li>
+  <li>&#39;page foo\=bar&#39; pages the last person you paged. Fix by Nathan Baum.</li>
+  <li>Receipt of a SIGUSR1 (Causing a shutdown/reboot) is explictly logged. Suggested by <em>Interloper</em>. <b>[SW]</b></li>
+  <li><code>@wipe</code> reports the number of attributes deleted. [183]</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>You can no longer save objects slated to be destroyed by using <code>@set</code> foo=!GOING (The help file for GOING now tells the truth) Reported by <em>Cooee</em>. <b>[SW]</b> </li>
+  <li>Useless variable in <code>real_unparse()</code> removed. Reported by <em>Taladan</em>. <b>[SW]</b></li>
+  <li>&#39;make portmsg&#39; works, and portmsg.c rewritten to current Penn standards. <b>[SW]</b></li>
+  <li><code>case()</code> would replace #$ in the default argument, contrary to the help file. Reported by <em>Talvo</em>. <b>[SW]</b></li>
+  <li>Memory leak in <code>grep()</code>. <b>[SW]</b></li>
+  <li>Quotes can be around the player name on the login screen always, instead of just when player_name_spaces was on. Suggested by <em>Dan Widdis</em>. <b>[SW]</b></li>
+  <li>&#39;{think foo} bar&#39; exhibited odd behavior. <b>[GM]</b></li>
+  <li>&#39;make test&#39; wouldn&#39;t work right unless &#39;.&#39; was in you path. Fix by Nathan Baum.</li>
+  <li>stdin and stdout weren&#39;t getting closed, potentially causing problems when trying to log out of a shell after starting a mush. Reported by <em>K Moon</em>. <b>[SW]</b></li>
+  <li>NetBSD compile and general warning fixes. <b>[SW]</b></li>
+  <li>Favor difftime(3) over subtraction of time_t variables. <b>[SW]</b></li>
+  <li>Clarification of attribute trees in HELP <code>@WIPE</code>. Suggested by <em>Talvo</em>.</li>
+  <li>Loading a db with empty attributes used as the roots of attribute trees didn&#39;t work if empty_attrs is set to no. Reported by <em>Kevin</em>. <b>[SW]</b></li>
+  <li>Bugs in wiping attribute trees with attributes the wiper doesn&#39;t have permission to delete fixed. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.2 patchlevel 3 (March 11, 2007)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Unterminated buffer in <code>sortkey()</code> fixed. Reported by <em>Balerion</em>. Patch by Javelin.</li>
+  <li>Memory leaks in <code>setunion()</code> and <code>revwords()</code> fixed by Javelin.</li>
+  <li>Crash bug in <code>speak()</code> fixed. Reported by <em>Trinsec</em>. Patch by Javelin.</li>
+  <li>Crash bug in buy fixed. Reported by <em>Amy</em>. Patch by Javelin.</li>
+  <li>If we should fail to clear a semaphore attribute for some reason (e.g., it&#39;s the branch of an attribute tree), reset the semaphore count on the attribute to 0. Patch by Javelin.</li>
+  <li><code>iter()</code> dealt badly with freeing buffers when CPU_LIMIT or function_invocation_limit was hit. Found by Ashen-Shugar. <b>[GM]</b></li>
+  <li><code>@ps/all</code> displayed the wrong  queue entry count for mortals. Reported by <em>Cheetah</em>. <b>[SW]</b></li>
+  <li><code>@hook/override</code> of say would get an extra leading &quot; if that was used instead of the literal say command. Reported by <em>Tuxedo Ian</em>. <b>[SW]</b></li>
+  <li>Fixed a bug where speech seemed to come from the wrong  object for nospoof information. Reported by <em>Jules</em>. <b>[SW]</b></li>
+  <li>The help entry for <code>@poll</code> failed to mention <code>@poll/clear</code>. Reported by <em>Cooee</em>. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.2 patchlevel 2 (January 27, 2007)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Vector functions with an empty vector didn&#39;t return anything. Reported by <em>Talvo</em>. <b>[SW]</b></li>
+  <li>Several typos in server messages. Fixed by Sketch, Stoko.</li>
+  <li>Help fixes by Malix, <b>[GM]</b>, Talvo, Sketch, and others.</li>
+  <li>Crash bug in <code>lmath()</code> fixed. <b>[GM]</b></li>
+  <li>Crash bug in list functions fixed. <b>[GM]</b></li>
+  <li>list2arr in C now removes markup. <code>list2arr_ansi()</code> was added. <b>[GM]</b></li>
+  <li>Compilation problems on IRIX and similar OSes. <b>[SW]</b></li>
+  <li>Matcher bug with multiple wildcards fixed. Reported by <em>Ian</em>. <b>[SW]</b></li>
+  <li>Garbled output of locks from examine. Reported by <em>Intrevis</em>. <b>[SW]</b>.</li>
+  <li><code>regraballi()</code> couldn&#39;t use its output seperator argument. Reported by <em>Jules</em>. <b>[SW]</b></li>
+  <li>Looking at an object used the looker, not the lookee, as the origin of the name for <code>@ahear/</code><code>@aahear/</code><code>@amhear</code>. <b>[SW]</b></li>
+  <li>Fixed the distribution of random numbers with a huge range. Reported by <em>Luke</em>. </li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.2 patchlevel 1 (November 26, 2006)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Corrected inadvertent breakage of null comparisons. Patched by Javelin.</li>
+  <li>Added overview since 1.8.0 to help 1.8.2p0. <b>[EEH]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.2 patchlevel 0 (November 26, 2006)</h2>
+
+  <li>Players may have multiple aliases.</li>
+  <li>&#39;home&#39; is now a standard command.</li>
+  <li>Errors in matching switches to commands are ignored when the command is hook/ignored or hook/overriden.</li>
+  <li><code>@attrib/access</code> no longer treats one-word flag lists that don&#39;t match a single flag as a set of flag characters.</li>
+  <li>pcre updated to 6.4.</li>
+  <li>NT_TCP code has been removed from the server.</li>
+  <li>The FIXED flag&#39;s restriction on &#39;home&#39; has been moved to restrict.cnf.</li>
+  <li>New commands: <code>@edit/check</code>, <code>@function/preserve</code>, <code>@hook/list</code>, <code>@prompt</code>, <code>@nsprompt</code>, <code>@list/locks</code>, UNIMPLEMENTED_COMMAND, PROMPT_NEWLINES, <code>@poll/clear</code>.</li>
+  <li>New functions: alias, fullalias, attrib_set, sortkey, namegrab/all, ns/prompt, textentries, cdesc, cusers, cmsgs, cbuffer, cstatus, clflags, numversion, nl/nsearch, nchildren, decompose, mapsql, wildgrep/i, ordinal, ulambda, speak, unique, nextdbref, namelist, crecall, l/m/x/xmwhoid, stringsecs</li>
+  <li>New attributes: invformat, mailforwardlist, mailfilter</li>
+  <li>New substitutions: %+, %  (percent-space), %i0-%i9, <var>%u</var></li>
+  <li>New locks: mailforward, take</li>
+  <li>New behaviors: <code>@flag/alias</code>, <code>@attribute/access</code>, <code>flip()</code>, <code>reverse()</code>, <code>lsearch()</code>, <code>extract()</code>, <code>center()</code>, <code>setq()</code>, <code>setr()</code>, page, <code>align()</code>, <code>regedit()</code>, <code>delete()</code>, <code>@search</code>, <code>@pemit/list</code>, <code>@poll</code>, <code>width()</code>, <code>height()</code>, <code>locate()</code>, <code>@chan/recall</code>, <code>insert()</code>, <code>default()</code>, <code>@conformat</code>, <code>link()</code>.</li>
+  <li>New flags: loud, track_money.</li>
+  <li>New powers: pueblo_send, many_attribs.</li>
+  <li>New attribute flags: aahear, amhear.</li>
+  <li>New config directives: channel_flags.</li>
+  <li>New function restriction &quot;localize&quot; causes q-registers to be saved and restored around the function as if <code>localize()</code> or <code>ulocal()</code> were used; handy for <code>@functions</code>.</li>
+  <li>New DBREFLIST^&lt;attrib&gt; lock key checks to see if the enactor appears in a list of dbrefs/objids stored on an attribute of the object.</li>
+  <li>The LIGHT flag now overrides the DARK flag consistently.</li>
+  <li><code>decompose()</code> now properly handles all manner of spaces, as well as replacing 5 or more spaces with [space(&lt;count&gt;)]. Report by Malix. <b>[GM]</b></li>
+  <li>Fix crash bug in <code>decompose()</code>. Report by Malix.</li>
+  <li>The mush can listen to ports above 32000. Suggested by <em>Nathan Baum</em>.</li>
+  <li>Fix the <code>mix()</code> bug that prepends the separator to the list. <b>[GM]</b></li>
+  <li>Win32 experienced erratic time behavior when compiled with MSVC++ 8 or higher. Reported by <em>Intrevis<code>@M</code>*U*S*H</em>.</li>
+  <li>Win32 project and readme files for MSVC++ 6 and .Net updated. <b>[EEH]</b></li>
+  <li>Help fixes by Kevin<code>@M</code>*U*S*H.</li>
+</body>
+</html>

@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>PennMUSH 1.8.4 Changelog</title>
+ <link rel="stylesheet" href="mushdoc.css">
+</head>
+<body>
+<header>
+<h1 class="title">PennMUSH 1.8.4 Changelog</h1>
+</header>
+<hr>
+<h2>Version 1.8.4 patchlevel 8 (Nov 11, 2011)</h2>
+
+<h3>Major changes</h3>
+
+ <ul>
+  <li>ssl_slave is enabled by default by configure if OpenSSL and libevent2 are present. Passing --disable-ssl_slave to configure will still disable it. <b>[SW]</b></li>
+  <li>The newline_one_char config option has been removed -- %r now always returns a single-char newline (\n). <b>[MG]</b></li>
+  <li>Microsoft Visual Studio 2010 project files contributed by Daniko.</li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>crunch_code and crypt_code in funcrypt.c are no longer static. Requested by qa&#39;toq<code>@M</code>*U*S*H. <b>[MG]</b></li>
+  <li><code>@dump</code> now notifies the executor when the dump is complete. Suggested by <em>Padraic</em>. <b>[MG]</b></li>
+  <li>There is now a slight delay between a client connecting to the MUSH, and the connect screen being shown. This means that the &quot;&lt;-- ... --&gt;&quot; HTML comments are no longer needed around the connect screen when mud_url is enabled, the HTML shown when someone connects to the MUSH with a browser works better, and that Pueblo clients will usually only get the HTML connect screen, instead of seeing both. Also, telnet negotiation should complete before the screen is shown, making <code>terminfo()</code> and <code>width()</code> give useful values for people using softcoded connect_files. Commands can still be used before the connect screen is displayed. <b>[MG]</b></li>
+  <li>When looking at an object, all its components (describe, descformat, conformat and exitformat) now share registers: a q-register set in the desc can be accessed in the conformat, and so on. <b>[MG]</b></li>
+  <li>When you fail to <code>@mail</code> a player because you don&#39;t pass their <code>@lock/mail</code>, the MAIL_FAILURE verbs will be triggered, as per &#39;help failure&#39;.  Suggested by <em>Cheetah</em>. <b>[MG]</b></li>
+  <li>When using <code>channels()</code> on an object, the permission checks now resemble those for <code>cwho()</code> / <code>@channel/who</code>. Based on a patch by Padraic. <b>[MG]</b></li>
+  <li>Guests no longer control anything, including themselves, and can&#39;t ever build, create or destroy objects. They can still examine themselves, for backwards compatability. Suggested by <em><b>[SW]</b></em>. <b>[MG]</b></li>
+  <li>Changed many things which were evaluating an attribute value manually to use <code>call_ufun()</code> instead, for better %+ / <var>%=</var> values, among other benefits. <b>[MG]</b></li>
+  <li>fetch_ufun_attrib now takes a new flag, UFUN_NAME, which will add the object&#39;s name to the beginning of the attr value (respecting no_name and no_space attr flags), for <code>@o</code>-* attrs. <b>[MG]</b></li>
+  <li>Clean up the functions that send data across the network to connections. <b>[SW]</b></li>
+  <li>Updated intructions for compiling with MySQL support on Windows contributed by Daniko.</li>
+  <li>Improve ssl_slave cleanup code on lost connections and shutdowns. <b>[SW]</b></li>
+  <li><code>@list</code> locks and list(locks) sort their results. <b>[SW]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>@lock/infilter</code>, not <code>@lock/infitler</code>. <b>[SW]</b></li>
+  <li><code>@shutdown/reboot</code> handles failed database saves much more gracefully. <b>[SW]</b></li>
+  <li>Help fixes by Wiggles and Trelane. <b>[MG]</b></li>
+  <li>Fix a few places that could trigger an integer division exception. Reported by <em>Ashen-Shugar</em>. <b>[SW]</b></li>
+  <li>A number of places in the hardcode incorrectly took TINY_MATH into account when deciding if something was a valid number or not. From a report by Daniel Powell. <b>[MG]</b></li>
+  <li><code>doing()</code> now evaluates the DOING attribute with better values for <var>%#</var> and <var>%@</var>. From a report by Padraic. <b>[MG]</b></li>
+  <li>Fix some cases where functions like <code>lcon()</code> could return partial dbrefs at the end of a long output string. <b>[SW]</b></li>
+  <li>When magic-sorting strings with embedded dbrefs, <code>setunion()</code> no longer treats different objects with the same name as being identical. Reported by <em>Minion</em>. <b>[MG]</b> <b>[GM]</b></li>
+  <li><code>type()</code> and <code>hastype()</code> claimed to work on GARBAGE objects, but actually returned #-1 NO SUCH MATCH. Reported by <em>Jules</em>. <b>[MG]</b></li>
+  <li>A few messages were sent with incorrect nospoof data. Reported by <em>Jules</em>. <b>[MG]</b></li>
+  <li>Fix a harmless but annoying race condition when making a SSL connection to a game in the middle of starting. <b>[SW]</b></li>
+  <li>Fixed minor memory leak in chat system. <b>[MG]</b></li>
+  <li><code>@channel/decompile</code> didn&#39;t recreate the ANSI in a channel&#39;s name. <b>[MG]</b></li>
+  <li>Channel names can now contain any amount of ANSI, as long as the visible name is 30 chars or less in length. Suggested by <em>Kimiko Muffin</em>. <b>[MG]</b></li>
+  <li><code>@channel/rename</code> allowed you to give channels invalid names. <b>[MG]</b></li>
+  <li><code>@readcache</code> rebuilds the linux file watch list, allowing deleted files to be watched for changes again when re-created. <b>[SW]</b></li>
+  <li>Crash bug in <code>@boot/me</code>. Reported by <em>Minion</em>. <b>[SW]</b></li>
+  <li>Fix in handling clients like putty that send telnet commands right away instead of waiting for the mush to send them first. Reported by <em>Time</em>. <b>[SW]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>isregexp()</code> to validate regexp patterns. Suggested by <em>Padraic</em>. <b>[DC]</b></li>
+  <li><code>sqlescape()</code> doesn&#39;t need to have commas escaped. Suggested by <em>Daniko and Padraic</em>. <b>[SW]</b></li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li>&#39;examine&#39; and &#39;brief&#39; now take an /opaque switch, which omits contents listings. Useful for spammy objects like the player_start room. <b>[MG]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.4 patchlevel 7 (Sep 25, 2011)</h2>
+
+<h3>Deprecation</h3>
+
+ <ul>
+  <li><code>@elock</code>, <code>@eunlock</code>, <code>@ulock</code> and <code>@uunlock</code> are deprecated. <b>[SW]</b></li>
+  <li><code>@doing</code> is now deprecated (see below).</li>
+  <li>The &quot;newline_one_char&quot; mush.cnf option is now deprecated, and will soon always be &quot;Yes&quot;. If you have it set to No and have any code that assumes strlen(%r) == 2, you should change it now. <b>[MG]</b></li>
+ </ul>
+
+<h3>Major changes</h3>
+
+ <ul>
+  <li>DOING is now a standard attribute. Your <code>@doing</code> can be any length, and <code>doing()</code> returns the whole string (though it will still be truncated when displayed on WHO), can contain ANSI and will be evaluated each time it&#39;s displayed, allowing for random/rotating doings. The <code>@doing</code> command will escape its input before setting into an attribute, for backwards compatability, but is now deprecated; use &amp;doing to store code. <b>[MG]</b></li>
+  <li>All objects with the same flags or powers set share the same storage for those flags. Large games should see slightly reduced memory use. Suggested by <em><b>[GM]</b></em>. <b>[SW]</b></li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>Rewrite memcheck allocation tracking to use a more efficient data structure. <b>[SW]</b></li>
+  <li>Help file improvements, by Ender and others. <b>[SW]</b> <b>[MG]</b></li>
+  <li>Added a new &#39;getting started&#39; helpfile, that gives a brief overview of how to move, talk, use channels and <code>@mail</code>. Suggested by <em>Wiggles</em>. <b>[MG]</b></li>
+  <li><code>@decompile</code> now uses &#39;&amp;attr obj=value&#39;, even for standard attributes, to avoid possible clashes with command names. Suggested by <em>Mercutio</em>. <b>[MG]</b></li>
+  <li>Extended convtime understands timestamps of the form &#39;YYYY-MM-DD hh:mm:ss&#39;. Suggested by <em>Padraic</em>. <b>[SW]</b></li>
+  <li><code>pemit()</code> now accepts a list of port numbers, to pemit to multiple ports at once. Suggested by <em>Padraic</em>. <b>[MG]</b></li>
+  <li>Built in functions and commands can now be marked as being deprecated. Using one of these functions or commands results in a warning to the owner of the object executing them. Deprecated functions and commands might be removed in future patch levels; code using them needs to be rewritten. <b>[SW]</b></li>
+  <li>Rewrite function restriction parsing and reporting to make it easier to add new restrictions. <b>[SW]</b></li>
+  <li>Code cleanup. <b>[SW]</b></li>
+  <li>Channels are now ungagged on disconnect, instead of connect, so you&#39;ll see your &quot;&lt;Foo&gt; Bar has connected.&quot; message next time you log in. <b>[MG]</b></li>
+  <li>WARN_ON_MISSING can now be <code>@hooked</code>. Suggested by <em>Padraic</em>. Also, help has been added for that and UNIMPLEMENTED_COMMAND. <b>[MG]</b></li>
+  <li><code>fn()</code> didn&#39;t always work correctly on a UserFn function, especially when nested in another function. Reported by <em>Padraic</em>. <b>[MG]</b></li>
+  <li>Accents are no longer stripped from output sent to players who haven&#39;t logged in (those at the connect screen). Suggested by <em>geradon</em>. <b>[MG]</b></li>
+  <li>Softcode functions are now passed an additional argument, eflags, by the hardcode, which should be used when the function calls <code>process_expression()</code>. See HACKING.184 for more info. <b>[MG]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li>Mortals can now use lwho(me). Allows for lwho(<var>%#</var>) on ancestors to be used by all. Suggested by <em>Minion</em>. <b>[MG]</b></li>
+  <li><code>xwho()</code> now takes an optional &lt;looker&gt; arg, like <code>lwho()</code>. <b>[MG]</b></li>
+  <li><code>rand()</code> without an argument returns a floating point number greater than or equal to 0 and less than 1. <b>[SW]</b></li>
+  <li><code>itemize()</code> is now more ANSI-aware. Reported by <em>Jules</em>. <b>[MG]</b></li>
+  <li><code>fullalias()</code> didn&#39;t include old-style exit aliases (which were a part of the exit name). <b>[MG]</b></li>
+ </ul>
+
+<h3>Locks</h3>
+
+ <ul>
+  <li>New locks, <code>@lock/filter</code> and <code>@lock/infilter</code>, which must be passed (along with any <code>@filter/</code><code>@infilter</code> set) for an object to forward sound. Patch by Padraic.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Verified that Penn compiles using the clang compiler, and fix a few warnings it generated. <b>[SW]</b></li>
+  <li>Better fix for the DBREFLIST issue fixed in p6. <b>[SW]</b></li>
+  <li><code>@pemit/list</code> stopped reporting when it failed to match an object in p5. Reported by <em>Padraic</em>. <b>[MG]</b></li>
+  <li>&#39;page&#39; evaluated its args incorrectly when used in an $-command. Reported by <em>Invidia<code>@Dune3</code></em>. <b>[MG]</b></li>
+  <li>Win32 compile fixes by Daniel Powell. <b>[MG]</b></li>
+  <li>Fix an off-by-one error in <code>wrap()</code>. Report by Padraic, patch by Minion <b>[MG]</b></li>
+  <li>Sorting code didn&#39;t do proper objid checks, so setinter(#1:123, #1:456) would return #1:123 instead of nothing. <b>[MG]</b></li>
+  <li>The Can_spoof power was only aliased to Can_nspemit (its original name) in upgraded dbs, not in new games created from minimal db. Reported by <em>Ben Ramsey</em>. <b>[MG]</b></li>
+  <li>Fix a crash bug in <code>@function/restrict</code> on malformed input. Reported by <em>Padraic</em>. <b>[SW]</b></li>
+  <li>Some fixes to the test suite. Reported by <em>Covenent</em>. <b>[MG]</b></li>
+  <li><code>@pageformat</code> included nospoof information. Reported by <em>Jules</em>. <b>[MG]</b></li>
+  <li><code>case()</code> clobbered $0-$9 subs. Reported by <em>Jules</em>. <b>[MG]</b></li>
+  <li>Named regexp captures -- (?P&lt;NAME&gt;pattern) -- were broken in a recent patchlevel. Reported by <em>Jules</em>. <b>[MG]</b></li>
+  <li>Markup wasn&#39;t stripped from queued commands, making it possible for ANSI to bleed. Reported by <em>Wiggles</em>. <b>[MG]</b></li>
+  <li>Pueblo players couldn&#39;t see ANSI in connect screens. From a report by geradon. <b>[MG]</b></li>
+  <li><code>money()</code> behaved incorrectly when the tiny_math config option was on. Reported by <em>Daniell Powell</em>. <b>[MG]</b></li>
+  <li>Databases with 8-bit characters couldn&#39;t be saved using the internal libz compression routines. <b>[SW]</b></li>
+  <li>It was possible to create a player with a forbidden name from the login screen. Reported by <em>Andrew Bell</em>. <b>[MG]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.4 patchlevel 6 (Jul 29,  2011)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>Clean up the linux inotify file monitoring code a bit. <b>[SW]</b></li>
+  <li><code>@forwardlist</code> can be inherited (But defaults to no-inherit). Suggested by <em>Padraic</em>.</li>
+  <li><code>@pemit/port</code> now takes the /list switch, to pemit multiple ports at once. Suggested by <em>Padraic</em>. <b>[MG]</b></li>
+  <li>When you &#39;register&#39; a character at the connect screen, you can re-use the command to send a new password to the same email address, as long as you haven&#39;t connected yet. Suggested by <em>Minion</em>. <b>[MG]</b></li>
+  <li><code>@odescribe/</code><code>@adescribe</code> are no longer triggered when a Terse player moves into a room, as he doesn&#39;t see the <code>@describe</code>. Suggested by <em>Padraic</em>. <b>[MG]</b></li>
+  <li>exit-oneway and exit-multiple warning checks now take global exits into account. Suggested by <em>Padraic and qa&#39;toq</em>. <b>[SW]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>valid()</code> can be used with the &#39;qreg&#39; category to check if a string is a valid q-register name.  <b>[SW]</b></li>
+  <li><code>crecall()</code> now returns an error when given an invalid channel, and no longer returns an error when used on a channel with nothing to recall. Suggested by <em>Trinsec</em>. <b>[MG]</b></li>
+  <li>Added <code>uptime()</code>, which returns much of the information from <code>@uptime</code>. From a suggestion by Jules. <b>[MG]</b></li>
+  <li><code>quota()</code> now accepts &#39;me&#39; as an argument. Suggested by <em>Padraic</em>. <b>[MG]</b></li>
+  <li><code>remove()</code> is now ANSI-aware. <b>[MG]</b></li>
+  <li><code>money()</code> now checks for an integer argument before checking for an object. Suggested by <em>qa&#39;toq</em>. <b>[MG]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Wildcard matches on ANSI&#39;d strings sometimes failed. Reported by <em>Duckwa and Paige</em>. <b>[MG]</b></li>
+  <li>Bug in matching code when a room tries to locate an exit. Reported by <em>Sketch</em>. <b>[MG]</b></li>
+  <li>Help updates. <b>[MG]</b>, <b>[SW]</b></li>
+  <li>Crash bug in dealing with Pueblo markup. Reported by <em>Mercutio</em>. <b>[SW]</b></li>
+  <li>Fix some issues in parsing flag/attribute/eval locks. Found by Padraic and Jules. <b>[SW]</b></li>
+  <li>@[out]pageformat could sometimes receive the wrong alias in <var>%2</var>. Reported by <em>Padraic</em>. <b>[MG]</b></li>
+  <li><code>align()</code> didn&#39;t correctly apply ANSI to empty columns. Reported by <em>Padraic</em>. <b>[MG]</b></li>
+  <li>Fix compile warning in player.c when sendmail is not enabled. Reported by <em>Padraic</em>. <b>[MG]</b></li>
+  <li>Fix hardcode bug in ansi_strcmp, which affected the softcode <code>splice()</code> function. <b>[MG]</b></li>
+  <li><code>@chan/what</code> failed to report when Admin channels also had the Player priv. Reported by <em>Padraic</em>. <b>[MG]</b></li>
+  <li>win32/config.h was lacking a definition for int16_t. Reported by <em>Daniko</em>. <b>[SW]</b></li>
+  <li>DBREFLIST locks required the attrname be given in upper-case. Reported by <em>Sketch</em>. <b>[MG]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.4 patchlevel 5 (Jun 19,  2011)</h2>
+
+<h3>Major Changes</h3>
+
+ <ul>
+  <li>The experimental --enable-ssl_slave option for configure allows persistant SSL connections that won&#39;t get booted when the mush restarts. Requires libevent v2.X. <b>[SW]</b></li>
+  <li>info_slave, the sub-process used for resolving hostnames, now uses libevent if available. <b>[SW]</b></li>
+  <li>Rewrite of large portions of notify.c. The main public function there, <code>notify_anything()</code>, now takes different arguments. <code>notify_format()</code> and <code>notify()</code> are unchanged. Should be largely unnoticable for players. <b>[MG]</b></li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li><code>@edit/quiet</code> edits attributes, but doesn&#39;t spam you with the modified values, just gives you a count of modified attributes. Suggested by <em>Padraic</em>. <b>[MG]</b></li>
+  <li>You can now have more than one command (with the action list enclosed in {curly braces}) in the rhs arg of <code>@force/noeval</code>. <b>[MG]</b></li>
+  <li><code>@ps/debug</code> &lt;pid&gt; will display extra information about a queue entry&#39;s evaluation environment. <b>[SW]</b></li>
+  <li><code>@pemit</code> now acts as if /silent was given when the executor and target are the same object, for consistency with other sound-producing commands and to fix an issue with <code>@pemit/spoof</code>. <b>[SW]</b></li>
+  <li><code>@command</code> now shows the failure message that can be set with restrict_command or <code>@command/restrict</code>. <b>[SW]</b></li>
+  <li><code>@message</code> now takes a /remit or /oemit switch, to make it work like those commands instead of <code>@pemit</code>. Also takes a /nospoof switch to make it like the <code>@ns</code>*emit versions. <b>[MG]</b></li>
+  <li><code>@pemit/list/noisy</code> now shows a confirmation message. <b>[MG]</b></li>
+ </ul>
+
+<h3>Powers</h3>
+
+ <ul>
+  <li>can_dark power lets non-wizard players set themselves dark. Suggested by <em>AnneLions</em>. <b>[GM]</b></li>
+ </ul>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li>ansi_string has been rewritten to be much faster for non-marked up strings, to take up considerably less memory, and has received general all-around improvements in speed. Rewrite is in preparation for 256 color and 24 bit color ansi. <b>[GM]</b></li>
+  <li>ansi_string no longer optimizes markup. In some pathological cases, buffer_len will be hit much earlier than it used to be. Use <code>ansi()</code> with wisdom! <b>[GM]</b></li>
+  <li><code>@edit</code> no longer shows the full value of attributes which aren&#39;t edited, it just shows that they are unchanged. Suggested by <em>Minion</em>. <b>[MG]</b></li>
+  <li><code>@mail</code> now shows the dbref of the sender for mail from non-players. Suggested by <em>Minion</em>. <b>[MG]</b></li>
+  <li>Fix a potential buffer overflow in prefix table code. <b>[SW]</b></li>
+  <li>&quot;enter &lt;exit&gt;&quot; now works the same as &quot;goto&quot;. Suggested by <em><b>[GM]</b></em>. <b>[MG]</b></li>
+  <li>Tweaks to the system queue introduced in the last patchlevel. <b>[SW]</b></li>
+  <li><code>@pemit</code> now uses the same nospoof header as other commands. <b>[MG]</b></li>
+  <li>When creating a minimal db, the MUSH now respects the read_remote_desc option, and may set <code>@descs</code> &quot;nearby&quot;. Reported by <em>Paige</em>. <b>[MG]</b></li>
+  <li>Exits now show accented names (via <code>@nameaccent</code>) in &quot;look&quot;. Suggested by <em>Cheetah</em>. <b>[MG]</b></li>
+  <li><code>@enter/</code><code>@oenter/</code><code>@aenter</code>, <code>@leave/</code><code>@oleave/</code><code>@aleave</code> and <code>@move/</code><code>@omove/</code><code>@oxmove/</code><code>@amove</code> get passed the moving object&#39;s original and/or new location as appropriate. Patch by Padraic.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Crashbug when players are in and homed to a room that is owned by a player being <code>@nuked</code> fixed. Reported by <em>Kimiko</em>. <b>[GM]</b></li>
+  <li>qregs, <var>%0</var>-<var>%9</var> and $0-$9 would occasionally smash each other. Reported by <em>Cheetah<code>@M</code>*U*S*H</em>. <b>[GM]</b></li>
+  <li>No_Pay was implicit if executor is #1, but was _not_ implicit if Owner(executor) was #1. Caused some obscure queue cost bugs. Discovered by Padraic<code>@M</code>*U*S*H. <b>[GM]</b></li>
+  <li>%$-subs didn&#39;t work inside <code>@switch</code>&#39;s default case. Patch by Covenent.</li>
+  <li><var>%0</var>-9 were being overridden when using /inline/localize. Patch by Covenent.</li>
+  <li>You couldn&#39;t <code>@chat</code> on open channels. Reported by <em>Padraic</em>. <b>[MG]</b></li>
+  <li>Win32 compile fixes by Daniel Powell. <b>[MG]</b></li>
+  <li>The Open_Anywhere power didn&#39;t fully work as intended. Patch by Covenent.</li>
+  <li>regrab*() functions removed ansi. Reported by <em>Covenent</em>. <b>[MG]</b></li>
+  <li><code>munge()</code> didn&#39;t play nice with ansi. <b>[MG]</b></li>
+  <li><code>@shutdown/reboot</code> would hang unencrypted sockets for players with both SSL and normal connections. Reported by <em>Padraic</em>. <b>[SW]</b></li>
+  <li><code>@chatformat</code> sometimes received the player&#39;s name without accents by mistake. Reported by <em>Sketch</em>. <b>[MG]</b></li>
+  <li>Bug in <code>@wipe</code> fixed by Padraic.</li>
+  <li>Objects couldn&#39;t be <code>@tel</code>&#39;d to exits which weren&#39;t in their current location. Reported by <em>Padraic</em>.</li>
+  <li>Fixed an obscure bug in &quot;say&quot; when sound is propagated. From a report by Padraic<code>@M</code>*U*S*H. <b>[MG]</b></li>
+  <li>Various help fixes. <b>[MG]</b>, <b>[SW]</b></li>
+  <li>Prevent persistant &#39;Attempt to write to error log before it was started!&#39; error in netmush.log <b>[MG]</b></li>
+  <li>Rooms could not locate objects by name. Reported by <em>Sketch</em>. <b>[MG]</b></li>
+  <li>Players using Pueblo who are not set ANSI will no longer see colors. <b>[MG]</b></li>
+  <li>The &lt;inside&gt; arg to <code>tel()</code> didn&#39;t work. Fixed by Padraic.</li>
+  <li>&#39;make clean&#39; in game/txt no longer deletes the configure-generated compose.sh file. Suggested by <em>Padraic</em>. <b>[SW]</b></li>
+  <li>The new q-register code wasn&#39;t passing registers on to new commands queued by <code>@wait</code>, <code>@verb</code> and <code>@mapsql</code>. <b>[SW]</b></li>
+  <li>Crash bug in unused code to reset hash tables fixed. Reported by <em>Trinisi</em>. <b>[SW]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li>Restrictions for the <code>beep()</code> function can now be modified with <code>@function</code>. Suggested by <em>Paige</em>. <b>[MG]</b></li>
+  <li>Functions that take #lambda anonymous attributes also understand a new #apply/&lt;function name&gt; shorthand for calling a single function. <b>[SW]</b></li>
+  <li><code>ldelete()</code> now takes an osep. <b>[MG]</b></li>
+  <li><code>allof()</code>/<code>strallof()</code> can now have mutli-char output separators, and null oseps. Reported by <em>Padraic</em>. <b>[MG]</b></li>
+  <li><code>benchmark()</code> warns when results are thrown off by hitting the FIL. Reported by <em>Padraic</em>. <b>[SW]</b></li>
+  <li>New <code>render()</code> function which returns a string rendered as html, without markup, etc. Useful for bots or storing data in SQL. <b>[MG]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.4 patchlevel 4 (May 05,  2011)</h2>
+
+<h3>Major changes</h3>
+
+ <ul>
+  <li>Q-registers are no longer limited to single characters. setq(name,joe) and r(name) or %q&lt;name&gt;! Limited by max_named_qregs. <b>[GM]</b></li>
+  <li>Ident lookup and associated config options have been removed. Between lack of people running ident servers, NAT, and issues in the code, it rarely got results. <b>[SW]</b>.</li>
+ </ul>
+
+<h3>Hardcode</h3>
+
+ <ul>
+  <li>global_eval_context has been removed. The BQUE, EVAL_CONTEXT and PE_Info structs have been removed, replaced with MQUE and NEW_PE_INFO. Shouldn&#39;t affect players, but will affect hardcode hacks. See HACKING.184 for more info. <b>[MG]</b></li>
+  <li>Q-registers are now kept in a PE_REGS stack. See HACKING.184 for more information. This will be used for other registers. <b>[GM]</b></li>
+  <li>Regexp information ($1, $&lt;foo&gt;) are now kept in the PE_REGS stack. <b>[GM]</b></li>
+  <li>Faster regexps in many cases when there is no markup. <b>[GM]</b></li>
+  <li>Switch, iter, and env (<var>%0</var>-<var>%9</var>) information are now kept in PE_REGS stack. switch, iter, <code>@switch</code> and <code>@dol</code> are no longer limited, but new queue entries only keep the last 50 <code>@switch/</code><code>@dols</code>. <b>[GM]</b></li>
+  <li>Renamed some variables in <code>COMMAND()</code> definitions for consistency/clarity. See HACKING.184 for more info. <b>[MG]</b></li>
+  <li>Assorted Windows fixes. <b>[SW]</b></li>
+  <li>Clean up code using <code>vsnprintf()</code> to remove #ifdefs. <b>[SW]</b></li>
+  <li>String trees are now fully reference counted with no undeletable entries. <b>[SW]</b></li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>Because <code>switch()</code> and <code>@switch</code> now store capture data, it can change the nesting of $0-$9/$&lt;foo&gt; in rare cases. <b>[GM]</b></li>
+  <li>All <code>@o</code>* messages are now heard by rooms even when they&#39;re empty. Makes room <code>@listens</code> and similar things work right. Suggested by <em>Padraic</em>. <b>[MG]</b></li>
+  <li><code>@zemit</code> and <code>zemit()</code> will now show the executor the message, if he&#39;s in a room on the right zone. Suggested by <em>Paige</em>. <b>[MG]</b></li>
+ </ul>
+
+<h3>Locks</h3>
+
+ <ul>
+  <li>objid locks are now turned into =-locks by the lock parser. The clearing of references to deleted objects makes objid locks extraneous. <b>[SW]</b></li>
+  <li>Internal changes to validation of &#39;name^string&#39; locks to use perfect hash tables to validate the name. <b>[SW]</b></li>
+  <li>Locks worth better with escaped special characters. Patch by Covenent.</li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li><code>@switch</code> and <code>@switch/regexp</code> set $0-$9 for glob or pattern captures. <b>[GM]</b></li>
+  <li><code>@notify/setq</code> can alter Q-registers of a semaphore queue entry before dequeueing it. <b>[GM]</b></li>
+  <li>&#39;teach&#39; now takes a /list switch, which lets it run an action list instead of a single command. <b>[MG]</b></li>
+  <li><code>@force</code>, <code>@switch</code> and <code>@hook/override</code> now all take an /inline switch, which can be further modified with /clearregs, /localize and /nobreak to run their actionlists without queueing (replaces /inplace). <code>@include</code> also takes those three switches. See the help for more info. <b>[MG]</b></li>
+  <li><code>@retry</code>, which causes a queue entry to restart from the beginning. Useful for coding loops without the queue delay. <b>[GM]</b></li>
+ </ul>
+
+<h3>Substitutions</h3>
+
+ <ul>
+  <li>$&lt;name&gt; for accessing regexp substitutions can now have evaluation inside the &lt;&gt;s: $&lt;%qa&gt;. <b>[GM]</b></li>
+  <li>%q&lt;foo&gt; can access named Q-registers. %q&lt;%qa&gt; can work as a q-register dereference. <b>[GM]</b></li>
+  <li>New <var>%=</var> substitution, which evaluates to the dbref/attribute currently being evaluated. Useful for coding things which loop. <b>[MG]</b></li>
+ </ul>
+
+<h3>Attributes</h3>
+
+ <ul>
+  <li>Branch attributes now show the &#39;branch&#39; attribute flag in <code>lflags()</code>. <b>[MG]</b></li>
+  <li>no_inherit and no_clone weren&#39;t propagated down attribute trees as stated in the help, but now are. <b>[MG]</b></li>
+  <li>The debug and no_debug attribute flags now affect attributes which are queued (via $-commands, <code>@trigger</code>, etc) as well as <code>ufun()</code>&#39;d. Suggested by <em>Wiggles</em>. <b>[MG]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>switch()</code> sets $0-$9 for glob captures.</li>
+  <li><code>setq()</code>, <code>regmatch()</code>, <code>strmatch()</code> and <code>sql()</code> accept q-register names of more than one character. <b>[GM]</b></li>
+  <li><code>unsetq()</code> now accepts patterns of q-register names. <b>[GM]</b></li>
+  <li><code>listq()</code> lists q-registers available to <code>r()</code>, optionally limited to those matching a pattern. <b>[GM]</b></li>
+  <li><code>elock()</code> now only requires that you can see the lock you&#39;re trying to test. Suggested by <em>Sketch<code>@M</code>*U*S*H</em>. <b>[MG]</b></li>
+  <li>Changes to <code>scan()</code>: Returned value now always returns the object which would run the $-command (even if it&#39;s actually set on a parent). <code>scan()</code> can also take a 3rd argument, to limit which objects are checked. Based on a patch by Covenent. <b>[MG]</b>   </li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>isword(ansi(r,foo)) would return 0. isword now removes markup before checking. Ditto for isdbref, isnum, isint, isobjid. <b>[GM]</b></li>
+  <li><code>round()</code> would sometimes return a number with a decimal point but no digits after it, like &quot;5.&quot;. Reported by <em>Minion</em>. <b>[MG]</b></li>
+  <li><code>sortby()</code> and <code>foreach()</code> now use call_ufun in the hardcode, fixing a number of minor bugs. <b>[MG]</b></li>
+  <li>rand(-X, -Y) where -X &gt; -Y was broken. <b>[SW]</b></li>
+  <li>Fix a couple of minor memory leaks. <b>[SW]</b></li>
+  <li>Possible crashbug in <code>switch()</code>, <code>@switch</code>, <code>iter()</code> and <code>@dolist</code> fixed. <b>[MG]</b></li>
+  <li>Fix crash when reading a database with an invalid lock key. Reported by <em>Covenant</em>. <b>[SW]</b></li>
+  <li>Some fixes to the test suite by Sketch.</li>
+  <li>Help fixes by misskaly, Wiggles and others. <b>[MG]</b></li>
+  <li>warn_interval set to 0 would cause the MUSH to hang. Reported by <em>Nymeria @ Blood of Dragons</em>.</li>
+  <li>It was sometimes possible for a player to view config options he shouldn&#39;t have. Reported by <em>qa&#39;toq</em>. <b>[MG]</b></li>
+  <li>Possible crashbug in <code>@name</code> reported by Wiggles. <b>[MG]</b></li>
+  <li>Object matching (a la <code>locate()</code>) with an exit as the looker didn&#39;t work correctly. Reported by <em>Covenent</em>. <b>[MG]</b></li>
+  <li>Panic database dumps weren&#39;t always loading correctly. Reported by <em><b>[MG]</b></em>, fixed by <b>[SW]</b>.</li>
+  <li>A missing mail or chat database caused failures in mush startup. Reported by <em>Nveid</em>. <b>[SW]</b></li>
+  <li>Various fixes to update-cnf.pl by Minion.</li>
+  <li>Setting or clearing the MONITOR flag on rooms caused duplicate messages. Reported by <em>Minion</em>. <b>[SW]</b></li>
+  <li><code>@mapsql/notify</code> would sometimes run the &quot;<code>@notify</code> me&quot; before the triggered attributes. Reported by <em>Mercutio</em>. <b>[MG]</b></li>
+  <li>Combined channels would generate duplicate connection/disconnection messages to players connected multiple times. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.4 patchlevel 3 (Mar 18,  2011)</h2>
+
+<h3>Events</h3>
+
+ <ul>
+  <li>Event system added. Certain things can now trigger events using <code>@config</code> event_handler. See &quot;help events&quot; and &quot;help event &lt;type&gt;&quot;. <b>[GM]</b></li>
+  <li>dump events: dump`5min, dump`1min, dump`complete.</li>
+  <li>object events: object`create, object`destroy, object`move, object`rename, object`kill.</li>
+  <li>sql events: sql`connect, sql`disconnect.</li>
+  <li>signal events: signal`usr1, signal`usr2.</li>
+  <li>player events: player`create, player`fail, player`connect, player`disconnect, player`inactivity.</li>
+  <li>socket events: socket`connect, socket`disconnect</li>
+  <li>database events: db`dbck, db`purge, db`wcheck</li>
+  <li>Periodic system events like warnings checks and db consistency checks are now handled by a timed queue and integrated with softcode events. Local hackers: This involves changes to local.c. If you have no changes in local.c, just delete the file. Otherwise, see HACKING.184 for more info. <b>[SW]</b></li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li><code>@hook/override/inplace</code> - You can now run softcode with the same priority as hardcode! <b>[GM]</b></li>
+  <li><code>@lock</code> (and all lock keys) now accepts NAME^&lt;pattern&gt; for matching against an object&#39;s name. <b>[GM]</b></li>
+  <li><code>@mapsql</code> passes row results to attributes. Suggested by <em>Mercutio</em>. <b>[GM]</b></li>
+  <li><code>@dig</code> now takes an optional garbage dbref argument to specify the new dbref. Suggested by <em>Paige</em>. <b>[GM]</b></li>
+  <li>The help command now does some auto-expansion of topics. For example, &#39;help <code>@chan</code> ad2&#39; will be expanded to match &#39;help <code>@channel</code> admin2&#39;. <b>[MG]</b></li>
+  <li><code>@force/inplace</code>, <code>@switch/inplace</code> and <code>@select/inplace</code> now run their commands without queueing new events. These are limited by the <code>@include</code> limit. <b>[GM]</b></li>
+  <li><code>@hide</code> without a switch now toggles hide status, rather than defaulting to <code>@hide/on</code>. <b>[MG]</b></li>
+  <li><code>@log</code> now takes a /recall switch for showing wizards the most recent activity in a log file. <b>[SW]</b></li>
+  <li><code>@lemit</code> and <code>@zemit</code> both have /noisy and /silent switches to suppress/show confirmation messages. With no switch, silent_pemit determines whether the message is shown. Suggested by <em>Paige for consistancy</em>. <b>[MG]</b></li>
+ </ul>
+
+<h3>Attributes</h3>
+
+ <ul>
+  <li>New no_debug flag, which prevents debug info being shown for an attribute when the object is set DEBUG. <b>[MG]</b></li>
+ </ul>
+
+<h3>Config</h3>
+
+ <ul>
+  <li>New <code>@config</code> option chan_title_len controls the length of <code>@channel/title</code>&#39;s. Suggested by <em>Paige</em>. <b>[MG]</b></li>
+ </ul>
+
+<h3>Locks</h3>
+
+ <ul>
+  <li>New <code>@lock/pay</code>, controls who can &quot;give&quot; an object pennies or &quot;buy&quot; items from an object. Based on patch by Covenent. <b>[MG]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>lockfilter()</code> lets you filter a list of dbrefs using a lock key. <b>[GM]</b></li>
+  <li><code>align()</code> now has &#39;$&#39; (nofill) as an option. Ideal for rightmost columns. Suggested by <em>Minion</em>. <b>[GM]</b></li>
+  <li><code>dig()</code> now takes an optional garbage dbref argument to specify the new dbref. Suggested by <em>Paige</em>. <b>[GM]</b></li>
+  <li><code>convutctime()</code> and convtime(&lt;time&gt;, utc) to convert a timestring to # of seconds since UTC. Patch by Minion.</li>
+  <li><code>powers()</code> with no arguments now returns a list of powers, similar to <code>lflags()</code> with no args. <b>[MG]</b></li>
+  <li><code>trim()</code> can now trim multiple characters. <b>[MG]</b> <b>[GM]</b></li>
+  <li>In some cases, privs are no longer needed to use <code>locate()</code>. <b>[MG]</b></li>
+  <li><code>cmogrifier()</code>, returns the mogrifier object for a channel. Suggested by <em>Trinsec</em>, patch by Minion.</li>
+ </ul>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li>The Can_Nspemit <code>@power</code> has been renamed to Can_Spoof, to better reflect its uses. Can_Nspemit is still an alias. <b>[MG]</b></li>
+  <li>Considerable improvement in the speed of functions that sort case-insensitively, particularly using &#39;m&#39; sort (Now default). <b>[GM]</b></li>
+  <li>Combined fun_setinter, fun_setdiff and fun_setunion into fun_setmanip. <b>[GM]</b></li>
+  <li>For hardcoders: list2arr and list2arr_ansi now take a third argument on whether to include empty items. <b>[GM]</b></li>
+  <li>page and <code>@mail</code> will report to you if your recipient(s) cannot reply to you. Suggested by <em>Paige</em>. <b>[GM]</b></li>
+  <li>The debug attribute flag now shows more debug info. <b>[MG]</b></li>
+  <li><code>@oemit</code> now does better object matching, can match names with spaces when enclosed in double quotes, and, when given a &lt;room&gt; but no matching objects, shows the message to everyone in the room, instead of noone. From a bug reported by Paige. <b>[MG]</b></li>
+  <li>Paranoid objects now see nospoof messages for their emits. <b>[MG]</b></li>
+  <li>ANSI is now ignored when checking the length of channel titles. Suggested by <em>Paige</em>. <b>[MG]</b></li>
+  <li><code>@decompile</code> with a &lt;prefix&gt; now shows cmds for setting attribute flags. <code>@decompile/tf</code> still omits cmds for attr flags. <b>[MG]</b></li>
+  <li><code>@mail</code> &lt;msg-lists&gt; which don&#39;t specify a folder now act on your current folder, instead of Folder 0. Suggested by <em>Paige</em>, patch by Minion.</li>
+  <li><code>@dig</code>, <code>@open</code> and <code>@name</code> now set exit aliases into the <code>@alias</code> attribute, instead of including them in the exit name. Also, <code>@name</code> can now set/clear the <code>@alias</code> of players/exits while changing the name. See help <code>@name</code> for details. Suggested by <em>Minion</em>. <b>[MG]</b></li>
+  <li>The logging code has been rewritten to make extending it with further log files easier. <b>[SW]</b></li>
+  <li>When used by a non-player, <code>@search</code> and related functions now search from the perspective of the object&#39;s owner. Suggested by <em>Covenent</em>. <b>[MG]</b></li>
+  <li>The LASTPAGED attribute now stores objids instead of names, allowing you to repage even when the target changes their name. <b>[MG]</b></li>
+  <li>When <code>zwho()</code> or <code>@chzone</code> fail because you don&#39;t pass the <code>@lock/zone</code>, zone failure verbs are triggered (as per &#39;help failure&#39;). Based on a patch by Covenent. <b>[MG]</b></li>
+  <li><code>sub()</code> can now take more than two arguments. Suggested by <em>Paige</em>. <b>[MG]</b></li>
+  <li>In the hardcode, disconnected players in the DESC struct are shown as -1 instead of 0, to avoid conflicts with #0. Based on patch by Paige. <b>[MG]</b></li>
+  <li>It was sometimes possible to &quot;buy&quot; items from yourself. <b>[MG]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Fixing list type autodetect. <b>[GM]</b></li>
+  <li>Help fixes by Daniel Powell, AnneLions, Minion and others. <b>[MG]</b></li>
+  <li>Connect/disconnect messages for combined channels incorrectly showed NOSPOOF data. Reported by <em>Sketch</em>. <b>[MG]</b></li>
+  <li>The delimiter between combined channel names in <code>@chatformat</code> is now &#39;|&#39; instead of &#39; | &#39;, as documented. Reported by <em>Trinsec</em>. <b>[MG]</b></li>
+  <li>ansi(h,) now returns absolutely nothing, instead of an ansi-highlighted nothing. Fixes a few minor/obscure bugs. <b>[MG]</b></li>
+  <li><code>@edit</code> sometimes displayed a success message even when it failed. <b>[MG]</b></li>
+  <li><code>@cpattr/</code><code>@mvattr</code> would sometimes copy attribute flags, even when the attribute value couldn&#39;t be copied. <b>[MG]</b></li>
+  <li>Bug in attribute comparisons added in p2 could cause attributes to not be found at times. <b>[MG]</b></li>
+  <li><code>sortby()</code>s results would sometimes be reversed by mistake. <b>[GM]</b></li>
+  <li>Minor bugfix in <code>@include</code>. <b>[MG]</b></li>
+  <li><code>round()</code> sometimes returned numbers with more decimal digits than desired. </li>
+  <li>The &#39;*&#39; option in <code>locate()</code> didn&#39;t actually include all match types. <b>[MG]</b></li>
+  <li><code>@include</code> incorrectly refunded the queue_cost, giving people free pennies. Reported by <em>Covenent</em>. <b>[MG]</b></li>
+  <li><code>lnum()</code> didn&#39;t handle negative &lt;step&gt;s well. Reported by <em>Minion</em>. <b>[MG]</b></li>
+  <li><code>comp()</code>s results was sometimes negated. Reported by <em>Covenent</em>. <b>[MG]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.4 patchlevel 2 (Dec 06,  2010)</h2>
+
+<h3>Major Changes</h3>
+
+ <ul>
+  <li>Wildcard matcher completely rewritten to avoid hangs and to provide ansi-aware capturing. <b>[GM]</b></li>
+  <li>connection_fail_limit now lets you limit the # of connection fails in a 10 minute time by any given IP. <b>[GM]</b></li>
+ </ul>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li>update-cnf.pl perl script now handles optional config lines, by placing A # OPTIONAL above them. This is for message translation. <b>[GM]</b></li>
+  <li>Config options can now be marked as optional. If they don&#39;t exist, Penn will not complain in the log. <b>[MG]</b></li>
+  <li>Player names with spaces no longer need to be in given in quotes for <code>@name</code>. Suggested by <em>Minion</em>. <b>[MG]</b></li>
+  <li><code>@decompile</code> no longer shows flags which can&#39;t be set by players, like GOING and CONNECTED. <b>[MG]</b></li>
+  <li>%il substitution as preparation to get rid of ##. <b>[GM]</b></li>
+  <li>hardcode: call_attrib is now a wrapper around call_ufun. <b>[GM]</b></li>
+  <li>The %i&lt;n&gt; substitution, and <code>itext()</code>/<code>inum()</code>/<code>ilev()</code> functions, now work for <code>@dolist</code> as well as <code>iter()</code>. <b>[MG]</b></li>
+  <li><code>iter()</code> context (<code>itext()</code>, <code>inum()</code>, etc) is no longer propagated through ufuns. <b>[MG]</b></li>
+  <li><code>@hook/overrides</code> on huh_command are now matched against &quot;huh_command&quot; and &quot;huh_command &lt;input&gt;&quot;. From a suggestion by Mercutio. <b>[MG]</b></li>
+  <li>Various help fixes.</li>
+  <li><code>@list</code> and <code>list()</code> can now show only built-in or only local commands or functions. Suggested by <em>Trelane<code>@M</code>*U*S*H</em>. <b>[MG]</b></li>
+  <li>Mortals can now use <code>@search</code> to find any objects they can examine. Suggested by <em>Paige</em>. <b>[MG]</b></li>
+  <li><code>@function</code> names can start with numbers again. Requested by Mercutio. <b>[MG]</b></li>
+  <li><code>@include</code> and <code>@break</code> now work when entered directly from a client. <b>[MG]</b></li>
+  <li>The Drop and Give <code>@locks</code> now trigger verb &lt;name&gt;_LOCK`FAILURE attributes when you fail to pass them, as described in &#39;help failure&#39;. Suggested by <em>Cas<code>@BeforeTheDarkness</code></em>. <b>[MG]</b></li>
+  <li>Set several attributes used internally AF_NOCOPY so they won&#39;t be included in <code>@decompile</code> output. Suggested by <em>Paige</em>. <b>[GM]</b></li>
+  <li>The help for the chat system (<code>@channel</code>) has been rewritten. <b>[MG]</b></li>
+  <li>autodetect_list now returns &#39;m&#39; sort for unknown list types instead of alphanum, so sorting on strings will now treat numbers in them as separate comparisons by default. <b>[GM]</b></li>
+  <li><code>setunion()</code>, <code>setdiff()</code>, <code>setinter()</code> now autodetect lists in all cases where no sort type is provided instead of just some cases. <b>[GM]</b></li>
+  <li>The pipe (|) character is no longer valid in channel names. <b>[MG]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>ibreak()</code>, for breaking out of an <code>iter()</code> loop. [Rhost] <b>[MG]</b></li>
+  <li>New <code>stext()</code> function and %$N sub, equivilent of #$ in <code>@switch</code>, switch*(), and reswitch*(), but can be used in nested switches/on user input. <b>[MG]</b></li>
+  <li>New <code>slev()</code> function, returns the current nesting depth of switches. <b>[MG]</b></li>
+  <li><code>maillist()</code> returns a list of <code>@mail</code> messages matching a range, as per <code>@mail/list</code>. Suggested by <em>AnneLions</em>. <b>[MG]</b></li>
+  <li>New sorttype, lattr, sorts a list of attribute names. <b>[MG]</b></li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li><code>@channel/combine</code> and <code>@channel/uncombine</code> let you combine spammy connect messages for channels into one line. <b>[SW]</b> <b>[GM]</b></li>
+  <li><code>@grep</code> now accepts /wild and /regexp switches, for wildcard/globbing and regular expression greps (a la <code>wildgrep()</code> and <code>regrep()</code>). Also /nocase for case-insensitive greps. Suggested by <em>Paige</em>. <b>[MG]</b></li>
+  <li><code>@attribute</code> now allows limiting attribute values through /enum and /limit switches. <b>[GM]</b></li>
+  <li><code>@ps</code> &lt;pid&gt; shows info for a single queue entry. Suggested by <em>Paige</em>. <b>[MG]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Off-by-one bug in &#39;m&#39; sort when using embedded numbers fixed. <b>[GM]</b></li>
+  <li>Debug output was sometimes sent to the wrong executor. <b>[GM]</b></li>
+  <li>A crashbug in <code>@search</code> was fixed. Reported by <em>Paige</em>. <b>[GM]</b></li>
+  <li>A crashbug in <code>lpids()</code> was fixed. Reported by <em>Mercutio</em>. Fixed by Javelin.</li>
+  <li><code>@search</code> elock class failed to report invalid lock strings. Fixed. <b>[GM]</b></li>
+  <li><code>@cpattr</code> and <code>@mvattr</code> could break attribute trees. Reported by <em>Sketch</em>. <b>[MG]</b></li>
+  <li><code>benchmark()</code> calculated the average incorrectly. Reported by <em>Cheetah</em>. <b>[DC]</b></li>
+  <li><code>map()</code>, <code>iter()</code>, <code>mix()</code> and <code>step()</code> are ansi-aware, now. Using any of the list functions without ansi should also be considerably faster. <b>[GM]</b></li>
+  <li>&quot;look &lt;container&gt;&#39;s &lt;object&gt;&quot; incorrectly stopped working in p1 when &lt;object&gt;&#39;s desc was set &quot;nearby&quot;. Reported by <em>Yuriko<code>@M</code>*U*SH</em>. <b>[MG]</b></li>
+  <li>Attribute names are now sorted better with regard to attribute trees, hopefully fixing the recurring bug of <code>@wipe</code> leaving branch attributes when removing a root attr for good. <b>[MG]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.4 patchlevel 1 (Sep 05,  2010)</h2>
+
+<h3>Major Changes</h3>
+
+ <ul>
+  <li>You can now do the equivilent of <code>@command/add</code>, <code>@hook</code>, <code>@function</code> and <code>@attribute/access</code> from alias.cnf and restrict.cnf, to add/configure commands, functions and standard attributes. Suggested by <em>Paige</em>. <b>[MG]</b></li>
+  <li>Exits now use <code>@alias</code> for alternate names. The old style of including aliases directly in names is still supported, but deprecated in new construction. Suggested by <em><b>[MG]</b></em>. <b>[SW]</b></li>
+ </ul>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li><code>@power</code> now reports when you try and set a power which is already set (or clear one which isn&#39;t set), similar to <code>@set</code>. Suggested by <em>Paige</em>. <b>[MG]</b></li>
+  <li>Sorting methods now take - as a prefix to sort type in order to sort in descending order. Suggested by <em>Minion</em>. <b>[GM]</b></li>
+  <li>The matching code no longer matches players who aren&#39;t nearby with &quot;*playername&quot; when MAT_NEAR is given, more in line with other checks. (This has virtually no impact for most players.) <b>[MG]</b></li>
+  <li>The internal pe_info (which manages the function invocation limit, among other things) is now managed per-queue, not per-command argument. <b>[MG]</b></li>
+  <li><code>@chan/decompile</code> now uses &quot;*name&quot; for players, and dbrefs for other objects, when printing &quot;<code>@chan/on</code>&quot; statements. <b>[MG]</b></li>
+  <li>cpu_limit now works on Cygwin (though not quite as well as on unix). A slightly higher limit may be needed than other platforms. <b>[MG]</b></li>
+  <li>The output from say, pose, semipose and <code>@emit</code> is now passed through the SPEECHMOD attribute before being outputted. Suggested by <em>Paige</em>, based on MUX and TinyMUSH. <b>[MG]</b></li>
+  <li><code>@config/list</code> now accepts wildcard patterns to match against option names. Suggested by <em>Trinsec</em>. <b>[MG]</b></li>
+  <li>The dreaded &lt;Output flushed&gt; message should show up a lot less frequently on spammy debug output and the like. By popular demand. <b>[SW]</b></li>
+  <li>Added support for MSSP (Mud Server Status Protocol), based on patches by Javelin and Teal. See mush.cnf for details. <b>[MG]</b></li>
+  <li>The script for updating config files is smarter about adding new alias lines. <b>[SW]</b></li>
+  <li><code>@search</code> now only charges for elock searches which use eval or indirect locks.</li>
+  <li>Added <code>@mail/unread</code>, to mark mail you&#39;ve already read as new, and <code>@mail/status</code> to change read/cleared/tagged status for messages. Suggested by <em>qa&#39;toq</em>. <b>[MG]</b></li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li>Add /preserve switch to <code>@chzone</code> and <code>@chzoneall</code>, like <code>@chown/preserve</code>.</li>
+  <li>Rooms/exits must now have an <code>@COST</code> attribute in order to be given pennies. Use <code>@cost</code> &lt;ancestor&gt;=<var>%0</var> to enable giving to all rooms/exits. <b>[MG]</b></li>
+  <li>with/room can now check for commands in the Master Room or your ZMR, and with can check for commands on your ZMT. <b>[MG]</b></li>
+  <li><code>@sitelock/register</code> &lt;host&gt; now sets the access rules for &lt;host&gt; to be &quot;!create register&quot;, rather than &quot;!create&quot;. Suggested by <em>Trinsec</em>. <b>[MG]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>remit()</code> now works like <code>@remit/list</code>. Suggested by <em>Minion</em>. <b>[MG]</b></li>
+  <li><code>rand()</code> now accepts negative arguments again. <b>[MG]</b></li>
+  <li><code>lcon()</code> can now take a second argument to make it behave like <code>lthings()</code> or l[v]<code>players()</code>, or makes it return only puppets/listening objects, for MUX/Rhost compatability. Suggested by <em>Bane</em>. <b>[MG]</b></li>
+  <li><code>open()</code> can now open rooms remotely. Suggested by <em>Minion</em>. <b>[MG]</b></li>
+  <li><code>reswitch()</code> and co now perform $-replacements for subexpressions. <b>[MG]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Help fixes.</li>
+  <li><code>@search</code>&#39;s output can now include garbage objects, like <code>lsearch()</code>. Reported by <em>Minion</em>. <b>[MG]</b></li>
+  <li>The command parser incorrectly expanded the names of disabled built-in commands prior to $-command matching. Reported by <em>Mercutio</em>. <b>[MG]</b></li>
+  <li><code>benchmark()</code>&#39;s average would be thrown off when the CPU limit was exceeded during evaluation. Reported by <em>Amberyl</em>. <b>[MG]</b></li>
+  <li>Fix a few bugs in handling of command locks. <b>[SW]</b></li>
+  <li>Garbage objects could be matched by dbref. Reported by <em>Paige</em>. <b>[MG]</b></li>
+  <li>No longer complain about reboot.db not being present when we&#39;re not doing a <code>@shutdown/reboot</code> anyway. Reported by <em>Paige</em>. <b>[MG]</b></li>
+  <li>The Telnet escape code was not properly escaped when sent literally to Pueblo-aware clients. <b>[MG]</b></li>
+  <li><code>namelist()</code> did not accept names in quotes. Reported by <em>Amberyl</em>. <b>[MG]</b></li>
+  <li><code>@attrib/access/retroactive</code> could remove the &#39;root&#39; flag from attribute trees, making nasty things happen. Reported by <em>Cooee</em>. <b>[MG]</b></li>
+  <li>Fix <code>fn()</code> to check that the first arugment is actually the name of a built-in function. Reported by <em>Time and Cheetah</em>. <b>[DC]</b></li>
+  <li>Nested <code>@asserts/</code><code>@breaks</code> with no &#39;=&#39; would loop unintentionally. Reported by <em>Minion</em>. <b>[MG]</b></li>
+  <li>Fixed a couple of small bugs in give/<code>@cost</code>. <b>[MG]</b></li>
+  <li>You can now always look at remote objects whose descs are not set nearby, and can never look at remote objects with nearby descs. <b>[MG]</b></li>
+  <li>The chatdb didn&#39;t load correctly with invalid objects on channels. <b>[MG]</b></li>
+  <li>Fixed a crashbug in <code>@boot</code> on Windows. Reported by <em>Daniel Powell</em>. <b>[MG]</b></li>
+  <li>%q-registers did not carry over into <code>@includes</code> correctly. Reported by <em>Reaver</em>. <b>[MG]</b></li>
+  <li>Double-free in follow command fixed. Reported by <em>Anya<code>@ST</code>:DW</em>. <b>[MG]</b></li>
+  <li><code>locate()</code> sometimes returned #-2 when two objects matched, even if only one of them was the preferred type. Reported by <em>Minion</em>. <b>[MG]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.4 patchlevel 0 (May 09,  2010)</h2>
+
+<h3>Major Changes</h3>
+
+ <ul>
+  <li>Commands can now be restricted with an <code>@lock</code>-style lock in restrict.cnf and <code>@command/restrict</code>, allowing more complex restrictions. <b>[MG]</b></li>
+ </ul>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li><code>@shutdown/reboot</code> logs who was responsible. Suggested by <em>Kitai</em>. <b>[SW]</b></li>
+  <li>Rewrite of help <code>@lock</code> to improve clarity, by Sketch.</li>
+  <li>New NO_LOG flag to disable command logging on a per-object basis. Based on code by Teal. <b>[SW]</b></li>
+  <li>mindb+maxdb classes for lsearch/<code>@search</code> no longer reset to default values when &gt; db_top or &lt; 0 is given: Instead treated as an integer comparison. <b>[GM]</b></li>
+  <li><code>@open</code> can now open exits in remote locations, as well as your current location. Suggested by <em>Bane</em>. <b>[MG]</b></li>
+  <li>New OPEN_OK flag allows anyone to open exits in a room, and <code>@lock/open</code> to restrict who can. Based on patch by ranmir<code>@M</code>*U*S*H. <b>[MG]</b></li>
+  <li>Master Room exits and ZMR exits now run the &quot;goto&quot; command, and <code>@ealias</code> and <code>@lalias</code> run the &quot;enter&quot;/&quot;leave&quot; commands, so <code>@hooks</code> get run, command restrictions checked, etc. <b>[MG]</b></li>
+  <li>New <code>@lock/from</code> and <code>@lock/receive</code> locks, to control who can give to an object, and what objects can be given to them, respectively. From a suggestion by Nammyung<code>@M</code>*U*S*H, based on locks on ElendorMUSH. <b>[MG]</b></li>
+  <li>Changed the restrictions for valid <code>@function</code> names to match what was reported by <code>valid()</code>. <b>[MG]</b></li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li>New <code>@include</code> &lt;obj&gt;/&lt;attr&gt; command, which inserts &lt;attr&gt; into the current action list. Patch by Javelin.</li>
+  <li><code>@scan</code> can now take multiple switches at the same time. <b>[MG]</b></li>
+  <li><code>@version</code> now reports the SVN revision of the current version, when available. Suggested by <em>Paige</em>. <b>[MG]</b></li>
+  <li><code>@clone</code> can take a garbage dbref for the new object, the same as <code>@create</code>. Suggested by <em>Dan</em>. <b>[MG]</b></li>
+  <li>&#39;look&#39; now supports more english-matching (look this foo&#39;s 1st bar). <b>[MG]</b></li>
+  <li>You can now look at objects on the other side of transparent exits, with &quot;look [toward] &lt;exit&gt;&#39;s &lt;object&gt;&quot;. Suggested by <em>Trinsec</em>. <b>[MG]</b></li>
+  <li>All wizards can now use <code>@command/add</code>. Suggested by <em>qa&#39;toq</em>. <b>[MG]</b></li>
+  <li>function_alias in alias.cnf now creates a proper alias, not a clone, of functions. <code>@function/alias</code> added, which does the same in-game. <b>[MG]</b></li>
+  <li>New <code>@command/clone</code> and <code>@function/clone</code> commands, which create copies of a command/function which initially work the same as, but are independant of, the originals. Based on suggestion by Bane. <b>[MG]</b></li>
+  <li>Added a comment line to the beginning of <code>@decompile</code>&#39;s output showing the object name and dbref. <b>[MG]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li>Added <code>strfirstof()</code> and <code>strallof()</code>, which return the first arg/all args which are non-empty strings. <b>[MG]</b></li>
+  <li>Added reglattr[p](), regxattr[p]() and regnattr[p](), regexp variants of lattr[p](), xattr[p]() and nattr[p](). Suggested by <em>Trinsec</em>. <b>[MG]</b></li>
+  <li>The *<code>emit()</code> functions, and <code>cbufferadd()</code>, are now disabled when function_side_effects are off. Suggested by <em>Cheetah</em>. <b>[MG]</b></li>
+  <li><code>round()</code> now takes an optional third argument to 0-pad the results if needed. Suggested by <em>Trinsec</em>. <b>[SW]</b></li>
+  <li>Many functions (particularly ones which take only numbers, dbrefs or attribute names as arguments) now ignore ANSI in their arguments, rather than throwing an error. <b>[MG]</b></li>
+  <li><code>nattr()</code>&#39;s &lt;attribute pattern&gt; now defaults to *, not **, the same as <code>lattr()</code> and other attribute functions. <b>[MG]</b></li>
+  <li><code>clone()</code> can now take a &lt;new name&gt; and &lt;dbref&gt;, as per <code>@clone</code>. <b>[MG]</b></li>
+  <li><code>cwho()</code> now takes an optional 3rd argument to omit gagged objects. Suggested by <em>Trinsec</em>. <b>[MG]</b></li>
+ </ul>
+
+<h3>Attributes</h3>
+
+ <ul>
+  <li><code>@outpageformat</code> lets you alter how you view pages that you send.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>isprint()</code> bug in <code>ord()</code> fixed. <b>[GM]</b></li>
+  <li>Possible crashbug in <code>@destroy</code> fixed. Reported by <em>Dan</em>. <b>[MG]</b></li>
+  <li>Minor bug in <code>benchmark()</code> fixed. <b>[MG]</b></li>
+  <li>channels(&lt;object&gt;) was incorrectly sorted for channel names containing ansi. Reported by <em>Trelane</em>. <b>[MG]</b></li>
+  <li>Help fixes by Teal and others. <b>[MG]</b></li>
+  <li>Minor updates to some README files. <b>[MG]</b></li>
+  <li>Some typos and translation errors fixed by Stoko.</li>
+  <li><code>namelist()</code> now ignores null items. Reported by <em>Minion</em>. <b>[MG]</b></li>
+  <li>The matching code would always perform absolute (dbref) matches, even when it wasn&#39;t told to. <b>[MG]</b></li>
+  <li>Improvements to the match flags used by many pieces of code, hopefully fixing a number of minor bugs. <b>[MG]</b></li>
+  <li>Paranoid dumps no longer treat ANSI tags as invalid characters in attrs. Reported by <em>Trelane</em>. <b>[MG]</b></li>
+  <li>The /silent switch for <code>@lemit</code> didn&#39;t work. <b>[MG]</b></li>
+  <li><code>@decompile/db</code> showed &#39;<code>@create</code> &lt;dbref&gt;&#39; for THINGs, not &#39;<code>@create</code> &lt;name&gt;&#39;, and <code>@decomp/name</code> could break. Reported by <em>Paige</em>. <b>[MG]</b></li>
+  <li>Crash bug in locks fixed. Reported by <em>Tanaku</em>. <b>[SW]</b></li>
+ </ul>
+
+</body>
+</html>

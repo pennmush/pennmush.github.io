@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>PennMUSH 1.7.5 Changelog</title>
+ <link rel="stylesheet" href="mushdoc.css">
+</head>
+<body>
+<header>
+<h1 class="title">PennMUSH 1.7.5 Changelog</h1>
+</header>
+<hr>
+<h2>Version 1.7.5 patchlevel 12 (November 3, 2002)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Another bug in <code>wrap()</code> fixed. Reported by <em>Rhysem</em>. <b>[SW]</b></li>
+  <li>Bug in <code>@wall</code> fixed. <b>[SW]</b></li>
+  <li>Variable renaming to avoid C99 keyword &#39;conj&#39;. <b>[SW]</b></li>
+  <li>Win32 project files for MSVC++ updated by Mark.</li>
+  <li>Several portability fixes for MS VS.NET&#39;s compiler by BladedThoth.</li>
+  <li><code>flip()</code> and <code>reverse()</code> didn&#39;t mix well. Better now. Reported by <em>Julian</em>. <b>[SW]</b></li>
+  <li>Compiling with CHAT_SYSTEM undefined works again. Report by BladedThoth.</li>
+  <li><code>bxor()</code> was actually doing a <code>bor()</code>. Reported by <em>Sketch<code>@M</code>*U*S*H</em>. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.5 patchlevel 11 (October 31, 2002)</h2>
+
+<h3>Config</h3>
+
+ <ul>
+  <li>New mush.cnf option only_ascii_in_names (defaults to yes) prohibits the use of extended characters in names. Games that are running in non-English locales will probably want to set this to no instead.  Suggested by <em>Philip Mak</em>. <b>[SW]</b></li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li>Added <code>@hook/before</code> and <code>@hook/after</code> [SW,3]</li>
+ </ul>
+
+<h3>Locks</h3>
+
+ <ul>
+  <li>You can now use power^&lt;power&gt; and channel^&lt;channel&gt; in locks to test if the enactor has a given power or is on a given channel. Patch by Vadiv<code>@M</code>*U*S*H.</li>
+  <li><code>@lock/dropto</code>, if set on a room, can prevent objects from being affected by the room&#39;s drop-to. Inspired by Oriens<code>@Alexandria</code>.</li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li>The <code>sha1()</code> function computes the SHA-1 cryptographic hash of a string.</li>
+  <li>A new nosidefx function restriction to allow disabling the side-effect version of a function while still enabling the informational version. For things like <code>name()</code> and <code>parent()</code>. <b>[SW]</b></li>
+  <li><code>@function</code>&#39;s report includes more function restrictions in the flags field. <b>[SW]</b></li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>Modularization of code for itemizing lists by Vadiv<code>@M</code>*U*S*H.</li>
+  <li>If there&#39;s no connect.html and you&#39;re on an html connection, connect.txt is now better formatted when sent to you. Same for  other cached text files. Suggested by <em>BladedThoth<code>@M</code>*U*S*H</em>.</li>
+  <li>CRYPT_SYSTEM 1 now behaves like CRYPT_SYSTEM 3 (replacing system-crypt passwords with SHS passwords). Suggested by <em>Vadiv<code>@M</code>*U*S*H</em>.</li>
+  <li>flag_table is no longer referenced anywhere except when it is used to seed the ptab_flag at startup. A stub &quot;flag_add&quot; function has been added to make life easier for hardcoders. Suggested by <em>Gepht</em>.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>sig.c was broken on systems without sigprocmask. Reported by <em>Arithon<code>@Oracle</code></em></li>
+  <li>Bug with paging disconnected players and <code>@away</code> fixed. Reported by <em>Vadiv<code>@M</code>*U*S*H</em>.</li>
+  <li>Bashisms that crept into utils/mkcmds.sh has been replaced by more portable alternatives based on Configure&#39;s results.  Reported by <em>Jason Newquist</em>.</li>
+  <li>Trigonometric functions were broken for non-radian degree types. Fixed up.</li>
+  <li><code>@decomp</code> &lt;room&gt;/&lt;attrib&gt; didn&#39;t properly use &#39;here&#39; as the name of the object in its output. Reported by <em>Oriens<code>@Alexandria</code></em>.</li>
+  <li>Wizards can now modify any lock on anything but God. Reported by <em>Brian Favela</em>.</li>
+  <li>ex/mortal and ex now produce identical output when a mortal  examines an object owned by someone else. Reported by <em>Philip Mak</em>.</li>
+  <li>We do a little better about trying to close html and ansi tags in all conditions. Bugs reported by BladedThoth @ M*U*S*H.</li>
+  <li>whisper/<code>@pemit</code> to a puppet should be relayed to the owner, even if the  owner is in the same room. Discovered thanks to MUSH sound test suite designed by Trispis<code>@M</code>*U*S*H.</li>
+  <li>The --longest switch in game/txt/Makefile was broken. Report by Nymeria<code>@M</code>*U*S*H</li>
+  <li>Help fixes by Noltar<code>@Korongil</code> and Intrevis<code>@M</code>*U*S*H</li>
+  <li>The M_READ extmail bit is now renamed M_MSGREAD, as M_READ conflicts with an included define on Solaris. Report by Jason Newquist.</li>
+  <li>Setting flags using single characters was not well documented, and didn&#39;t respect the character case. Reported by <em>Intrevis<code>@M</code>*U*S*H</em>.</li>
+  <li><code>@chown</code> by a Wizard attempted to debit the Wizard&#39;s money, rather than that of the new owner of the object, which violated expected conservation of money. Reported by <em>Peter Bengtson</em>.</li>
+  <li>Several bugs in <code>wrap()</code>&#39;s output fixed. Reported by <em>Balerion<code>@M</code>*U*S*H</em>. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.5 patchlevel 10 (September 19, 2002)</h2>
+
+<h3>Major Changes</h3>
+
+ <ul>
+  <li>Commands can now be restricted by generic flags or powers. Several mush.cnf options (restricted_building, free_objects, hate_dest, player_locate, cemit_power) are now restrict.cnf restrictions instead. By Vadiv<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li>When a set function (setdiff, etc.) is called with 4 arguments, if the last one isn&#39;t a valid sorting category, it&#39;s treated as the output separator.  Inspired by Mux <b>[SW]</b></li>
+  <li><code>checkpass()</code>, a wizard function that checks a string against a player&#39;s password. Requested by Writh<code>@M</code>*U*S*H.</li>
+  <li><code>regedit()</code> and variants can now accept multiple regexps and replacements, in order, like <code>edit()</code>. By Walker<code>@M</code>*U*S*H.</li>
+  <li><code>comp()</code> can take a third argument to specify the type of  comparison to make. Suggested by <em>Philip Mak</em>.</li>
+  <li>The trigonometric functions now take an optional argument to control how the angles they work with are measured to allow them to accept angles in degrees as well as the default radians. [SW,MUX2,Rhost]</li>
+  <li>Added <code>ctu()</code> for converting between angle measurements. [SW,MUX2,Rhost]</li>
+  <li>Added <code>atan2()</code>. <b>[SW]</b></li>
+  <li><code>dist2d()</code> and <code>dist3d()</code> can take floating-point numbers. <b>[SW]</b></li>
+  <li>Other small cleanups in the math functions. <b>[SW]</b></li>
+ </ul>
+
+<h3>Mail</h3>
+
+ <ul>
+  <li>The MAIL_SUBJECTS option has been removed. <code>@mail</code> now includes subjects mandatorily. Suggested by <em>Vadiv<code>@M</code>*U*S*H</em>.</li>
+ </ul>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li>When a player <code>@clones</code> an object owned by another player, the clone is now owned by the <code>@cloning</code> player, instead of the original owner. Fixes a quota transfer issue reported by Sparta and Philip Mak.</li>
+  <li>The flag table is no longer walked with a linear search. Instead, ptab_firstentry and ptab_nextentry are used. Flags no longer need to be added in a particular order or groups in flags.c, and flags added through hardcode should work better. Patch by Vadiv<code>@M</code>*U*S*H</li>
+  <li>Error message for wrong number of arguments to a function now tells you how many arguments it thinks you gave. Suggested by <em>Philip Mak</em>.</li>
+  <li>GAGGED players may now perform mail reading and maintenance.</li>
+  <li>Internal reorganization of signal code. <b>[SW]</b></li>
+  <li>Attempts to speak on a channel that you can&#39;t speak on or see now fail and command parsing continues. Suggested by <em>Vadiv<code>@M</code>*U*S*H</em>.</li>
+  <li>The amount of CPU time spent running a queue entry can be limited. This helps reduce the impact of some types of denial-of-service attacks. New mush.cnf directive queue_entry_cpu_time. This currently works only on Unix systems with setitimer. <b>[SW]</b></li>
+  <li>Internal rewrite of page/whisper code by Vadiv<code>@M</code>*U*S*H.</li>
+  <li>Flag set/reset messages now include the name of the target object. Suggested by <em>Kyieren<code>@M</code>*U*S*H</em>.</li>
+  <li>game/txt/Makefile now includes options to limit the number of news/etc topic aliases that are included in the &#39;entries&#39; indices generated by index-files.pl. Suggested by <em>Nymeria<code>@M</code>*U*S*H</em>.</li>
+  <li>Minor inconsistencies in <code>@sweep</code> output punctuation reported by Cmintrnt<code>@M</code>*U*S*H have been fixed.</li>
+  <li>Added hints/cygwin.sh, tested with cygwin 1.3.12. Added additional cygwin build information to README.</li>
+  <li>The whisper-pose message is now Player senses: &lt;pose&gt;, with no quotation marks added. This matches all other pose-type messages in the server. Suggested by <em>Philip Mak</em>.</li>
+  <li>Only escape codes described in the help are allowed in <code>timefmt()</code> <b>[SW]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Archaic help reference to FORCE_WHITE removed. Noted by Oriens<code>@Alexandria</code>.</li>
+  <li>Help fixes by Cerekk<code>@bDv</code> TrekMUSH, Julian<code>@M</code>*U*S*H, Letters<code>@M</code>*U*S*H, and Philip Mak.</li>
+  <li>The wildcard matcher could lag the MUSH under unusual conditions. It&#39;s now smarter. Discovered by Sketch<code>@M</code>*U*S*H.</li>
+  <li>Fixes from 1.7.4p20</li>
+  <li>Fix a bug with <code>setdiff()</code> not using the output separator correctly. <b>[SW]</b></li>
+  <li><code>convsecs()</code> could attempt to use values larger than 2^31, which could crash Windows. Reported by <em>Bellemore<code>@M</code>*U*S*H</em>.</li>
+  <li><code>@config</code> didn&#39;t correctly show default flags for objects. Reported by <em>Vadiv<code>@M</code>*U*S*H</em>.</li>
+  <li>The strcasecoll function was poorly coded, and is now fixed.</li>
+  <li>Created players who hadn&#39;t yet logged in didn&#39;t have LASTIP set properly. Reported by <em>Philip Mak</em>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.5 patchlevel 9 (July 16, 2002)</h2>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li>/noeval switch added to <code>@wall/</code><code>@rwall/</code><code>@wizwall</code> and variants. Suggested by <em>Philip Mak</em>.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Added a missing space in the <code>@function</code> report for softcoded <code>@functions</code>. <b>[SW]</b></li>
+  <li>MUX-style <code>@function</code> foo=obj/attr works right. <b>[SW]</b></li>
+  <li>Cleaned up some multiple includes of the same header files. <b>[SW]</b></li>
+  <li>Lots of cleanup of old <code>_()</code> macros and similar by Vadiv<code>@M</code>*U*S*H.</li>
+  <li>Added help for <code>@stats/table</code>. Suggested by <em>Intrevis<code>@M</code>*U*S*H</em>.</li>
+  <li>Fixes to csrimalloc #ifdefs that broke in last patchlevel. <b>[SW]</b></li>
+  <li>A typo that could crash <code>@function</code> on certain operating systems has been fixed. Report by Jeff Heinen.</li>
+  <li>Improved <code>switch()</code> help. <b>[SW]</b></li>
+  <li>Changes in the way switchinc.c is generated, to reduce the number of patches that attempt to patch it due to indentation changes. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.5 patchlevel 8 (June 26, 2002)</h2>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li>Added <code>@nspemit</code> and <code>nspemit()</code>. Wizard-only versions of <code>@pemit</code> and <code>pemit()</code> that don&#39;t print nospoof information. Suggested by <em>many people</em>, most recently Mike Griffiths and Nymeria<code>@M</code>*U*S*H. <b>[SW]</b></li>
+  <li>Help updates. <b>[SW]</b></li>
+  <li>Force the pipes to compression program for database reads and saves to be block-buffered. <b>[SW]</b></li>
+  <li><code>@function</code> name=obj/attrib now works, as well as <code>@function</code> name=obj,attrib <b>[TAP]</b></li>
+  <li>The AF_PREFIXMATCH flag is no longer shown on attributes it&#39;s set on when you examine them.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>A bunch of internal code cleanup, especially around casts. <b>[SW]</b></li>
+  <li>The disconnected room check is skipped on GOING rooms. Suggested by <em>Philip Mak</em>.</li>
+  <li>The dbck check for nameless rooms was only checking disconnected rooms; now it checks all rooms.</li>
+  <li><code>hasflag()</code> did not work with single-character flag abbreviations. Report by Mystery8.</li>
+  <li>The variable named &#39;template&#39; in src/strutil.c has been renamed to avoid clashes with the C++ reserved word. Suggested by <em>Mac<code>@M</code>*U*S*H</em>.</li>
+  <li>Improvement to help <code>@filter</code>. Suggested by <em>Philip Mak</em>. <b>[SW]</b></li>
+  <li>Files in the patches directory ending in ~ are ignored when patches.h is rebuilt. <b>[SW]</b></li>
+  <li>Removed a // comment from strutil.c, as we&#39;re still just following the c89 standard, not c99. Report by Vadiv<code>@M</code>*U*S*H. <b>[SW]</b></li>
+  <li>make indent now indents the .dst files before the .c ones. Fixes some spurious warnings from later makes. Suggested by <em>Vadiv<code>@M</code>*U*S*H</em>. <b>[SW]</b></li>
+  <li>Code cleanup, mostly <code>tprintf()</code> and unneeded header file checking elimination. <b>[SW]</b></li>
+  <li>Since a Windows header #defines OPAQUE, which conflicts with a #define for the mush flag of the same name, rename our #define rather than #undefining the Windows one. <b>[SW]</b></li>
+  <li>Fixes from 1.7.4p19</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.5 patchlevel 7 (May 14, 2002)</h2>
+
+<h3>Utilities</h3>
+
+ <ul>
+  <li>&#39;make globalinstall&#39; will install executables, scripts, and a game/ directory structure in a global location (/usr/libexec/pennmush by default). Facilitates rpm builds. By Vadiv<code>@M</code>*U*S*H.</li>
+  <li>The utils/ln-dir.sh script can be used to clone a globalinstall&#39;d pennmush for an individual MUSH/user. In combination, these two are a replacement for &#39;make customize&#39;, especially for mud hosters. By Vadiv<code>@M</code>*U*S*H.</li>
+  <li>You can now configure options.h settings from the command line</li>
+ </ul>
+
+<h3>    using</h3>
+
+ <ul>
+ </ul>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li> This will mostly be useful for autoinstallers and packaging scripts. Suggested by <em>Vadiv<code>@M</code>*U*S*H</em>.</li>
+  <li>The default gcc compile flags now include some extra warnings.</li>
+  <li>The prefix-table code now only aliases down to unique prefixes. This prevents <code>@w</code> from calling <code>@wipe</code> (reported by Philip Mak), and means that you&#39;ll need to use alias.cnf to get some of those short aliases. <b>[SW]</b></li>
+  <li>Attribute lookups only do prefix-matching on attributes with the AF_PREFIXMATCH flag. Most standard atr_tab.h attributes have this flag, but newly added <code>@attributes</code> won&#39;t. Solves a problem with inadvertant prefix-matching of <code>@attribs</code> reported by Sam Knowlton.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Fixes from 1.7.4p18</li>
+  <li><code>@decomp/skipdefaults</code> skips <code>@lsets</code> of default lock flags. Suggested by <em>Oriens<code>@Alexandria</code></em>. <b>[SW]</b></li>
+  <li>Typo in src/bsd.c corrected. Reported by <em>Nymeria<code>@M</code>*U*S*H</em>.</li>
+  <li>Missing prototype in src/help.c. Reported by <em>Nymeria<code>@M</code>*U*S*H</em>.</li>
+  <li>A bunch of linting.</li>
+  <li>Win32 portability fixes. <b>[EEH]</b></li>
+  <li>Updated MSVC++ project files for win32. <b>[EEH]</b></li>
+  <li><code>@newpassword</code> = foo would change the password of an arbitrary player. This is now corrected. Report by Oriens<code>@Alexandria</code>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.5 patchlevel 6 (April 22, 2002)</h2>
+
+<h3>Config</h3>
+
+ <ul>
+  <li>New attribute_alias config directive, and some default attribute aliases added to alias.cnf. Based on a report from Hilikiradi.</li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>textfile()</code> returns help/news/etc. entries. Suggested by <em>Trispis<code>@M</code>*U*S*H</em>.</li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>New <code>@warnings</code> type lock-checks that reports problems with <code>@locks</code>. <b>[SW]</b></li>
+  <li>exit-unlinked checks do some sanity checks on variable exits. <b>[SW]</b></li>
+  <li>Improved error-checking in evaluation of <code>@locks</code>. <b>[SW]</b></li>
+  <li>No more hdrs/warnings.h file. <b>[SW]</b></li>
+  <li>New <code>@nameaccent</code> attribute to add accent marks to object names in speech and things like look. Idea from Elendor. <b>[SW]</b></li>
+  <li><code>accent()</code> understands a few more things. <b>[SW]</b></li>
+  <li>The accented characters-&gt;html entities table and other lookup tables are now in a seperate file, src/tables.c, which can be regenerated if needed by utils/gentables.c <b>[SW]</b></li>
+  <li>Improvements in caching of cached text files. <b>[SW]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Buglet in ansi display of high-bit characters fixed. Report by Trispis<code>@M</code>*U*S*H. <b>[SW]</b></li>
+  <li>Improved <code>@clock2</code> help by Linda Antonsson.</li>
+  <li>Fixes from 1.7.4p17</li>
+  <li>A truly perverse database could cause an infinite loop on load. <b>[TAP]</b></li>
+  <li>Win32 portability fixes. [NJG, EEH]</li>
+  <li>The notify code assumed that integers could be directly stored in pointers. This isn&#39;t always true. <b>[SW]</b></li>
+  <li>Removed some un-used code. <b>[SW]</b></li>
+  <li>Fixed some compiler warnings and general code cleanup. <b>[SW]</b></li>
+  <li>Changed signal handlers to always use the ANSI/ISO C form (Returning void, basically) <b>[SW]</b></li>
+  <li>A null string no longer prefix-matches anything. Report by Prot Diryn and Cheetah<code>@M</code>*U*S*H.</li>
+  <li><code>@sitelock/remove</code> could remove entries it shouldn&#39;t if you remove the first one after the &#39;<code>@sitelock</code> will add sites...&#39; line. Reported by <em>Ambrosia<code>@M</code>*U*S*H</em>. <b>[SW]</b></li>
+  <li>The last line of the access.cnf file sometimes wouldn&#39;t get read properly. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.5 patchlevel 5 (March 11, 2002)</h2>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li><code>@notify</code> and <code>@drain</code> now accept a new switch /any. <b>[TAP]</b></li>
+  <li>Added <code>@remit/list</code>. Suggested by <em>Tareldin<code>@M</code>*U*S*H <b>[SW]</b></em></li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>We now use the Mersenne Twister pseudo-random number generator, which is better that that available in most C libraries. Moreover, we seed with /dev/urandom, if it&#39;s available. <b>[SW]</b></li>
+  <li>The &#39;T&#39; type character (for THING) is now shown when one-character flag lists are displayed. This is more consistent with other types, and makes it harder to confuse #23O (#23, opaque) with #230 (#230, no flags). Suggested by <em>Rince<code>@M</code>*U*S*H</em>.</li>
+  <li><code>@lock/use</code> on a parent used to apply to attempts to use $commands on a child. This is no longer necessary, given inheritable locks, so the behavior has been changed. Parents&#39; locks are no longer checked when deciding if a $command inherited from the parent should be run via a child.</li>
+  <li>New &#39;call_limit&#39; config option can limit the number of recursive parser calls to control process stack size and avoid crashes on systems with limited stack. Defaults to unlimited, however, because setting this value too small breaks mushcode. Report by Bellemore and BladedThoth @ M*U*S*H.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Code cleanup - some stuff from 1.7.4 got left in that isn&#39;t used in 1.7.5 any more. <b>[SW]</b></li>
+  <li>Fixes from 1.7.4p16, notably an important fix for timed semaphores.</li>
+  <li>Cygwin portability fixes. <b>[NJG]</b></li>
+  <li>Updated MSVC++ project files. <b>[EEH]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.5 patchlevel 4 (February 15, 2002)</h2>
+
+<h3>Major changes</h3>
+
+ <ul>
+  <li>The mush recognizes telnet-aware connections. This is neccessary for properly sending them some 8-bit characters. <b>[SW]</b></li>
+  <li>Much more support for handling accented characters in the ISO 8859-1 character set. See help for <code>accent()</code>, <code>stripaccents()</code>, and NOACCENTS. Inspired by Elendor. <b>[SW]</b></li>
+  <li>Things that do first-unique-prefix matching (command, attribute and flag names) now use a more space-efficient data structure than before. This adds two new files, src/ptab.c and hdrs/ptab.h <b>[SW]</b></li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li><code>@sitelock/remove</code> removes a sitelock entry. <b>[SW]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>ord()</code> and <code>chr()</code> functions for converting characters to/from numerical values that represent them. <b>[SW]</b></li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>The useless FORCE_WHITE flag is really, truely, gone. <b>[SW]</b></li>
+  <li>Use the new arglens argument to functions in more places. <b>[SW]</b></li>
+  <li><code>capstr()</code> and <code>before()</code> fixes reimplemented using arglens. <b>[SW]</b></li>
+  <li>We now use the Mersenne Twister PRNG algorithm. <b>[SW]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>setunion()</code> no longer eats empty list elements. <b>[SW]</b></li>
+  <li>Setting an inherited lock on a child could change the parent&#39;s lock. Reported by <em>Riverwolf</em>. <b>[SW]</b></li>
+  <li>Help fixes. [SW, Nymeria]</li>
+  <li>Players waiting at the connect screen weren&#39;t being disconnected by the idle_timeout.</li>
+  <li>Detection of cygwin in Configure may be improved.</li>
+  <li>Fixes from 1.7.4p15.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.5 patchlevel 3 (January 24, 2002)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>before()</code> was broken in 1.7.5p2. Reported by <em>Sam Knowlton</em>.</li>
+  <li><code>capstr()</code> was broken in 1.7.5p2.</li>
+  <li>Win32 portability fixes by Noltar<code>@Korongil</code>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.5 patchlevel 2 (January 23, 2002)</h2>
+
+<h3>Major changes</h3>
+
+ <ul>
+  <li>Implementations for softcode functions get the lengths of their arguments passed to them, and this is taken advantage of in a number of places. <b>[SW]</b></li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>It&#39;s harder to get a partial dbref because of end-of-buffer truncation. <b>[SW]</b></li>
+  <li>Code cleanup. In particular, <code>safe_str()</code> and friends are no longer macros for a <code>safe_copy_str()</code> or the like, because hardly anything used a different buffer length than BUFFER_LEN, and those places can be handled other ways. <b>[SW]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Win32 portability fixes by Noltar<code>@Korongil</code> and Eric Koske.</li>
+  <li>When you have two hidden connections, one idle over the inactivity limit, and the other not, <code>@hide/off</code> on the active connection unhides both, but you also see the Inactivity re-hide message from the other connection. Reported by <em>Trispis</em>.</li>
+  <li><code>iname()</code> function actually added to function table so it works. Reported by <em>K</em>. Shirow.</li>
+  <li><code>@lock</code> obj=attrib:value locks didn&#39;t work properly. Reported by <em>Linda Antonsson</em>.</li>
+  <li>Fixes from 1.7.4p14.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.5 patchlevel 1 (December 3, 2001)</h2>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li>PCRE updated to 3.7. <b>[SW]</b></li>
+  <li>player_name_len is now runtime configurable. Suggested by <em>Linda Antonsson</em>. <b>[SW]</b></li>
+  <li>Any object of any type may be a ZMO, and any object of any type may be zoned to a ZMO of any type. However, searching for $commands has not changed, so $commands on a ZMO are only searched when the ZMO is not a room, and $commands on objects within the ZMO are only searched when the ZMO is a room. <b>[TAP]</b></li>
+  <li><code>@chzoneall</code> nows directly calls <code>@chzone</code>, and <code>@chzone</code> now tells you when it&#39;s not changing a zone. <b>[TAP]</b></li>
+  <li>The term &quot;Zone Master&quot; (player) has been replaced by &quot;Shared Player&quot; in the help. <b>[TAP]</b></li>
+  <li>Many obsolete db formats are no longer readable. hdrs/oldattrib.h and src/convdb.c are no more. <b>[SW]</b></li>
+  <li>Code cleanup. <b>[SW]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Help file for mix updated. Report by Cmintrnt<code>@M</code>*U*S*H</li>
+  <li>Updated win32 config.h file and other fixes by Noltar<code>@Korongil</code></li>
+  <li>WHO wasn&#39;t showing unconnected players. Report by Noltar<code>@Korongil</code>. <b>[SW]</b></li>
+  <li>Help fixes. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.5 patchlevel 0 (November 14, 2001)</h2>
+
+<h3>Major Changes</h3>
+
+ <ul>
+  <li>This is now the development minor version. This first release includes relatively few changes, to make converting to it easier.</li>
+  <li>Internal changes to the lock system. This requires a new minimal.db, which is now distributed. <b>[SW]</b></li>
+  <li>Locale-based string collation throughout.</li>
+  <li>Only ANSI C compilers are still supported; no more K&amp;R. Files are gradually going to be converted to ANSI C only.</li>
+  <li>There is now an option to make ZMOs and ZMRs not count for control of objects, only ZMPs. <b>[SW]</b></li>
+ </ul>
+
+<h3>Flags</h3>
+
+ <ul>
+  <li>The ZONE player flag has been renamed SHARED, to help seperate the ZMP control-only meaning from the command-matching of ZMOs and ZMRs. <b>[SW]</b></li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li>/preserve switch for <code>@link</code> prevents <code>@chowning</code>. Suggested by <em>Vexon<code>@M</code>*U*S*H</em></li>
+  <li>Admin WHO and SESSION now includes unconnected descriptors. <b>[SW]</b></li>
+  <li>Unconnected descriptors can now be booted. Patch by Bellemore<code>@M</code>*U*S*H.</li>
+  <li>Unconnected descriptors can now be paged by admin with page/port. <b>[SW]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>mix()</code> can take more than 10 lists and of unequal length. [3,SW]</li>
+  <li><code>iname()</code> returns the name of an object from inside (honoring nameformat) Idea by Jeffrey<code>@TheHotel</code>.</li>
+  <li><code>lplayers()</code> returns a list of players in the location. Handy for room parents. By Vexon<code>@M</code>*U*S*H.</li>
+  <li><code>lvplayers()</code>, <code>lvcon()</code>, <code>lvexits()</code> are like lplayers/lcon/lexits, but leave out dark things (and disconnected players). Handy for room parents. By Vexon<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li><code>munge()</code> now passes its delimiter as <var>%1</var> to make generic sorting easier. <b>[SW]</b></li>
+  <li>Word-based attribute compression is faster than before, for both compression and decompression. <b>[SW]</b></li>
+  <li>Windows memory-usage information for wizards is now in <code>@uptime</code>, not <code>@stats</code> <b>[SW]</b></li>
+  <li>Word-based attribute compression stats can be viewed on non-Windows mushes as well, by defining COMP_STATS. See externs.h for details. <b>[SW]</b></li>
+  <li>Setting of the internal QUEUE and semaphore attributes does not modify an object&#39;s last-modified timestamp. <b>[SW]</b></li>
+  <li>Speaking on a channel that you&#39;re gagging is now treated like speaking on a channel that you&#39;re not on. Suggested by <em>rodregis<code>@M</code>*U*S*H</em></li>
+  <li>You can use <code>@exitto</code> in place of &amp;DESTINATION to set the destinatino for variable exits, though DESTINATION is checked first. [3]</li>
+  <li>WATCHER is another name for the MONITOR flag. [3]</li>
+  <li>max_guest_pennies and guest_paycheck config options. Inspired by <b>[SW]</b></li>
+  <li>Lock and unlock messages now show object name and dbref, and tell you if you unlock an already unlocked object. Suggested by <em>Jamie Warren</em>.</li>
+  <li>A version of portmsg for Win32 is in the win32 directory. Donated by CU5<code>@WCX</code></li>
+  <li>Tweaks to info_slave, which now uses readv/writev. <b>[SW]</b></li>
+  <li>Lots of code cleanup. <b>[SW]</b></li>
+  <li>CHAT_SYSTEM, INFO_SLAVE, and FUNCTION_SIDE_EFFECTS are now #define&#39;d by default. <b>[TAP]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Indentation fixes <b>[SW]</b></li>
+  <li>Fixes up to 1.7.4p12 merged in.</li>
+ </ul>
+
+</body>
+</html>

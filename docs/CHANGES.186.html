@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>PennMUSH 1.8.6 Changelog</title>
+ <link rel="stylesheet" href="mushdoc.css">
+</head>
+<body>
+<header>
+<h1 class="title">PennMUSH 1.8.6 Changelog</h1>
+</header>
+<hr>
+<h2>Version 1.8.6 patchlevel 2 (Dec 19, 2017)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Fix compilation errors with OpenSSL 1.1. <b>[SW]</b></li>
+  <li>Fix overflow bug in <code>mapsql()</code>. <b>[MG]</b></li>
+  <li><code>elements()</code> would very rarely give an extra delimiter. Reported by <em>Ashen-Shugar</em>. [1108-MG]</li>
+  <li>Missing null termination in &#39;buy&#39; fixed by CLDawes. [1128]</li>
+  <li>Fix an off-by-one error in switch handling code that could cause a crash on startup. <b>[SW]</b></li>
+  <li>Fix an issue with <code>table()</code> not fitting maximum number of columns in a line. Reported by <em>Degraine</em>. [1119-SW].</li>
+  <li>Fix an issue where writes to a socket sometimes shut down the connection needlessly. [1136-SW]</li>
+  <li>Disallow &#39;=&#39; to be used in passwords. Causes problems when changing passwords later. Reported by <em>Volund</em>, PR by Qon.</li>
+ </ul>
+
+<h3>Major changes</h3>
+
+ <ul>
+  <li>Supports client charset negotiation of UTF-8. This means the mush can send and recieve UTF-8, but still uses latin-1 internally. Unicode characters that aren&#39;t part of latin-1 are not supported. Yet. <b>[SW]</b></li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>New <code>@lock/chown</code> controls who can <code>@chown</code> a CHOWN_OK object. Suggested by <em>Frakir</em>. [1127-MG]</li>
+  <li>The &#39;buy&#39; command now pays the vendor, rather than the money disappearing into a black hole. Suggested by <em>moniker</em>, patch by CLDawes. [1128]</li>
+  <li>Help changes by Xperta, Trinsec, Elwyndas and others. <b>[MG]</b></li>
+  <li>MySQL Stored Procedures should now work without causing &#39;Out of sync&#39; errors. Patch by Mercutio. [1100]</li>
+  <li>Make log rotation more robust. <b>[SW]</b></li>
+  <li><code>fraction()</code> now takes a second arg; fraction(1.5,true) returns &quot;1 1/2&quot;, rather than &quot;3/2&quot;. <b>[MG]</b></li>
+  <li><code>hasattrval()</code> now returns 0 for attributes containing a single space when the empty_attrs config option is false. <b>[MG]</b></li>
+  <li><code>fold()</code> now passes the number of times &lt;attr&gt; has been called as <var>%2</var>. Suggested by <em>Shaenyl</em>. <b>[MG]</b></li>
+  <li>Attempt to speed up database saves and loads a bit. <b>[SW]</b></li>
+  <li>Improvements to SSL certificate checking. The ssl_ca_file config option should now be set to /etc/ssl/certs/ca-certificates.crt unless you&#39;ve customized it, and the new ssl_ca_dir option to /etc/ssl/certs. <b>[SW]</b></li>
+ </ul>
+
+<h3>Hardcode</h3>
+
+ <ul>
+  <li>Use the much lighter weight and higher quality PCG random number generator. <b>[SW]</b></li>
+  <li>Use a better seed for the RNG on Windows. <b>[SW]</b></li>
+  <li>mkcmds.pl uses a better way to generate temporary files. <b>[SW]</b>	</li>
+  <li>Use clang-format instead of GNU indent to format source code. <b>[SW]</b></li>
+  <li>Use poll(2) instead of select(2) for the main game event loop. <b>[SW]</b></li>
+  <li>Slave procceses use prctl(2) on Linux to be notified of the mush exiting instead of checking periodically. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.6 patchlevel 1 (Mar 29, 2017)</h2>
+
+<h3>Major changes</h3>
+
+ <ul>
+  <li>Added some aliases for the MUX com system, including the addcom, delcom, comtitle, comlist and <code>@clist</code> commands. Enabled in mush.cnf. See &#39;help muxcomsys&#39; for details. Requested by many people over the years. <b>[MG]</b></li>
+  <li>Move all remaining build-time settings out of options.h into mush.cnf and remove options.h. <b>[SW]</b></li>
+  <li>rjust(foobar,3,,1) previously returned &quot;bar&quot;; it now returns &quot;foo&quot;, like the analogous functions on MUX and Rhost do. We won&#39;t be changing it again. Honest. [1092-MG]</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>@clone</code>&#39;ing an old exit which had the alias built into the name incorrectly created a clone with no aliases. Reported by <em>Qon</em>. <b>[MG]</b></li>
+  <li>Fix compile errors in portmsg.c. Reported by <em>mcgiwer</em>. <b>[SW]</b></li>
+  <li>Disable SSLv2 support. <b>[SW]</b></li>
+  <li>Fixed a memory leak in <code>@listens</code>. <b>[MG]</b></li>
+  <li>Minor <code>align()</code> fixes when merging multiple columns. <b>[MG]</b></li>
+  <li><code>repeat()</code> would sometimes fill the buffer with very large numbers of repetitions. Reported by <em>Ashen-Shugar</em>. <b>[MG]</b></li>
+  <li>SOCKET`CONNECT event caused a crash because cque expected a player to always be enactor. <b>[GM]</b></li>
+  <li>&#39;help entries&#39; was broken. Reported by <em>Viila<code>@M</code>*U*S*H</em>. <b>[MG]</b></li>
+  <li><code>@if</code> incorrectly evaluated both its action list arguments prior to queueing one of them. Reported by <em>Qon and Ashen-Shugar</em>. [1076-MG]</li>
+  <li>The <code>@mailquota</code> standard attribute was missing from some dbs, for some unknown reason. It will be automatically be added back in when you first update to this version; if you aren&#39;t using the <code>@mail</code> system, you can <code>@attribute/delete</code> it once and it&#39;ll stay gone. Reported by <em>Kimojuno</em>. [1077-MG]</li>
+  <li>Messages - such as an exit&#39;s own <code>@osuccess</code> - could be propagated through an audible exit when they shouldn&#39;t be. [1081-MG]</li>
+  <li>Fix a crash if a particular file descriptor is -1. <b>[SW]</b></li>
+  <li>Fix a potential crash in <code>@stats/tables</code> <b>[SW]</b></li>
+  <li>controls(&lt;obj&gt;, &lt;victim&gt;/&lt;attr&gt;) would return 1 even if &lt;obj&gt; didn&#39;t control &lt;victim&gt;. <b>[MG]</b></li>
+  <li>Although json(object) would correctly return {}, an empty JSON object, other JSON functions would throw an error and say it was invalid. <b>[MG]</b></li>
+  <li>Fixed <code>channel_send()</code> incorrectly setting speaker to NOTHING for non-spoofed chat messages when adding text to the channel buffer. PR by Qon.</li>
+  <li>extract(&lt;list&gt;) incorrectly returned the 2nd element of &lt;list&gt;, instead of the 1st. Reported by <em>Jules<code>@M</code>*U*S*H</em>. <b>[MG]</b></li>
+  <li>Several places which checked for unsigned integers didn&#39;t ignore Tiny_Math, but should have. Reported by <em>Kitten</em>, debugged by Ashen-Shugar. <b>[MG]</b></li>
+  <li>Paranoid dumps didn&#39;t use the latest db flags. <b>[SW]</b></li>
+  <li>Although they can&#39;t be destroyed directly, it was still possible to destroy some important objects like the player_start room by nuking their owner, with nasty consequences. Reported by <em>Sistene<code>@M</code>*U*S*H</em>. <b>[MG]</b></li>
+  <li><code>regrab()</code>, <code>reglmatch()</code> and related functions didn&#39;t work if the &lt;regexp&gt; contained ansi. From a report by Riorgan<code>@M</code>*U*S*H. <b>[MG]</b></li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>PLAYER`CREATE event now passes the registered email if the player was created using &#39;register&#39; at the login screen. PR by Qon.</li>
+  <li><code>moniker()</code> now returns accented names, for Rhost/MUX compatability. Reported by <em>Qon</em>. [1063-MG]</li>
+  <li>Help fixes by Qon and others. <b>[MG]</b></li>
+  <li>The makefile warns if gperf is not installed but needed to regenerate some source files. Based on an idea by <b>[TK]</b>.</li>
+  <li>Work torwards supporting Windows via MSYS2. <b>[SW]</b></li>
+  <li>New option for <code>align()</code>, # stops a colsep being added after a column. Suggested by <em>Ashen-Shugar</em>. <b>[MG]</b></li>
+  <li>If you own an object and are in its DEBUGFORWARDLIST, you&#39;ll now only get the debug output once. Suggested by <em>Qon</em>. [1059-MG]</li>
+  <li>Tweaks to &#39;help &lt;wildcard&gt;&#39;s error messages, and the help for said syntax. Suggested by <em>Wiggles</em>. [1084-MG]</li>
+  <li>The &quot;monikers&quot; config option now takes a list of words, rather than a bitflag - less confusing and more user-friendly. [1089-MG]</li>
+  <li><code>@chownall</code> now takes /things, /rooms and /exits switches, to limit the types of objects chowned. [MG,Rhost]</li>
+  <li><code>@chown</code> &lt;obj&gt;/&lt;attr&gt;=&lt;owner&gt; acts as an alias for <code>@atrchown</code>, for Rhost compatability. <b>[MG]</b></li>
+  <li><code>@grep/parent</code> checks inherited attributes too. [MG,Rhost]</li>
+  <li>Penn now understands XTERM when reading raw ansi tags. It essentially never does this, though. Requested by spork. [975-MG]</li>
+  <li>Players that are See_All, Royaty or Wizard can see Hidden-connect messages on any channel. PR by Qon.</li>
+  <li>Players hidden on a channel with <code>@chan/hide</code> will not show connect messages to players unless they are see_all or roy/wiz. PR by Qon.</li>
+  <li>Hidden-connects/disconnects only show on <code>@chan/recall</code> and <code>crecall()</code> if you are see_all, roy or wizard, except for your own messages. PR by Qon.</li>
+  <li>DARK-connect/disconnect/etc messages are no longer announced over channels. Dark and Hidden are two different things. PR by Qon.</li>
+  <li>The Pueblo_Send power has been renamed Send_OOB, to reflect its new use for other, non-Pueblo-related, out of band messages. Pueblo_Send remains as an alias. (The hardcode macro checking for the power, Can_Pueblo_Send, has also changed to Can_Send_OOB.) [1041-MG]</li>
+  <li>Mortals can now use <code>oob()</code> on themselves, and those with the Send_OOB power can use it to send to anyone. Suggested by <em>Qon and Sketch</em>. [1041-MG]</li>
+  <li>Remove a duplicate message when <code>@chzone</code>&#39;ing a priv&#39;d player. <b>[MG]</b></li>
+  <li><code>@hooks</code> now always have named registers for left-side args, even if the command isn&#39;t eqsplit (see &#39;help <code>@hook7</code>&#39;). <b>[MG]</b> </li>
+  <li>Make SHA-0 dependency optional to support OpenSSL 1.1. <b>[SW]</b></li>
+  <li>Change the default hash for player passwords to SHA-512 from SHA-1. <b>[SW]</b></li>
+  <li>The default <code>@poll</code> message, &quot;Doing&quot;, can now be translated. <b>[MG]</b></li>
+  <li>Clean up some of the shell scripts used in the build and startup processes. <b>[SW]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li>Added <code>setsymdiff()</code> <b>[SW]</b></li>
+  <li>Added <code>randextract()</code>, a more powerful version of <code>randword()</code>. [MG,Rhost]</li>
+  <li><code>randword()</code> is now more ansi-aware. <b>[MG]</b></li>
+  <li><code>pgrep()</code>, like <code>grep()</code> but also checks parents. [MG,Rhost]</li>
+  <li>Added <code>json_query()</code>, for getting various information about JSON data. <b>[MG]</b></li>
+  <li>A number of functions are now more ANSI-friendly, including <code>first()</code>, <code>last()</code>, <code>rest()</code>, <code>fold()</code>, <code>filter()</code>, <code>grab()</code>. Report by Qon. [1048-MG]</li>
+  <li><code>splice()</code> no longer strips ANSI. [1045-MG]</li>
+ </ul>
+
+<h3>Documentation</h3>
+
+ <ul>
+  <li>Improve documentation for required packages in some Linux distributions.</li>
+  <li>Document how to get Penn running on the Windows 10 Bash For Ubuntu On Windows project.</li>
+ </ul>
+
+<h3>Hardcode</h3>
+
+ <ul>
+  <li><code>safe_atr_value()</code> now takes a second arg, for memory tracking (mem_check), and the returned value must be freed with <code>mush_free()</code> instead of just <code>free()</code>. <b>[MG]</b></li>
+  <li><code>ChanTitle()</code>, CHAN_TITLE_LEN, and the &quot;title&quot; member of the channel struct - used for <code>@channel/desc</code> - have been renamed to ChanDesc, CHAN_DESC_LEN and &quot;desc&quot;, respectively. Now I won&#39;t confuse them as being relevant with <code>@channel/title</code>. Every. Single. Time. <b>[MG]</b></li>
+  <li><code>etime_to_secs()</code> now takes a third, boolean argument, default_minutes. If true, purely numerical values are treated as a number of minutes, not seconds. This allows using the function for parsing time-related config options instead of having a separate implimentation. <b>[MG]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.6 patchlevel 0 (Dec 25, 2015)</h2>
+
+<h3>NOTE</h3>
+
+ <ul>
+ </ul>
+
+<h3>Major changes</h3>
+
+ <ul>
+  <li>Hosted on Github. Thanks, Google. <b>[DC]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>element()</code> is now an alias for <code>match()</code>. Suggested by <em>Wiggles</em>. [985-TK]</li>
+  <li>Added <code>json()</code>, for creating valid JSON-encoded data. <b>[MG]</b></li>
+  <li>Added <code>oob()</code>, for sending out-of-band messages via the General MUD Communication Protocol (GMCP) telnet option. Requested by Qon. <b>[MG]</b></li>
+  <li><code>registers()</code> only listed registers whose values were strings, not ints. <b>[MG]</b></li>
+  <li><code>filter()</code> and <code>filterbool()</code> can now be passed additional arguments, for Rhost compatability. Requested by Volund. [1019-MG] [Rhost]</li>
+  <li><code>valid()</code> can now validate timezones, locktypes and lockkeys. Suggested by <em>Volund</em>. [1021,1025-MG]</li>
+  <li><code>convtime()</code> now returns #-1, instead of -1, on error. This change is -backwards incompatible-, but necessary as -1 is a potentially valid output for <code>convtime()</code>. Suggested by <em>KimikoMuffin</em>. [1010-MG]</li>
+  <li><code>convsecs()</code> can now accept negative inputs when Extended <code>convtime()</code> is available. Suggested by <em>Volund</em>. [1010-MG]</li>
+  <li><code>avg()</code> is now an alias for <code>mean()</code>. [1023-TK] [Rhost]</li>
+  <li><code>textsearch()</code> allows searching the contents of helpfiles. <b>[MG]</b></li>
+  <li><code>speak()</code> no longer has the odd TinyMUSH behaviour of &#39;: foo&#39; being a semipose; <code>speakpenn()</code> is now an exact alias. [1034-MG]</li>
+  <li><code>timefmt()</code> and <code>isdaylight()</code> can now take a negative number of seconds for times prior to 1970 when Extended Convtime is available. <b>[MG]</b></li>
+  <li>colors(...,auto) returns colors in the same style as their input. Suggested by <em>Kimiko</em>. <b>[MG]</b></li>
+  <li>rjust(str,X,,1) truncated the end of the string, instead of the start. <b>[MG]</b></li>
+  <li>Minor <code>json()</code> bug and documentation fixes. <b>[MG]</b></li>
+  <li><code>wordpos()</code> is now ansi-aware. <b>[MG]</b></li>
+  <li>More markup-awareness in a number of list functions. <b>[MG]</b></li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li>The &#39;kill&#39; and &#39;slay&#39; commands have been removed. [1033-TK]</li>
+  <li>Remove ancient <code>@channel</code> foo=on behavior. Reported by <em>Paige</em>. [870-TK]</li>
+  <li><code>@logwipe</code> can do more than just erasing a log file. <b>[SW]</b></li>
+  <li><code>@hooks</code> now have a number of named registers (available through r(&lt;name&gt;,args)) with each of the hooked command&#39;s arguments. <b>[MG]</b></li>
+  <li>Added <code>@if</code> and <code>@skip</code>. <b>[MG]</b> [Rhost] <b>[MUX]</b></li>
+  <li>help/search &lt;pattern&gt; lets you search within helpfiles. <b>[MG]</b> [Rhost]</li>
+  <li><code>@newpassword</code> now takes a generate switch, which creates a random password ala email_register and shows it to the executor. [Qon]</li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>The &#39;HAVEN&#39; flag can now only be set on players. [1033-TK]</li>
+  <li>Added a few more date formats to getdate.template for <code>convtime()</code>. Suggested by <em>Volund and Mercutio</em>. [1020-MG]</li>
+  <li>Most PennMUSH helpfiles are no longer hard-wrapped at 78 characters; noone connects from clients that can&#39;t wrap any more. [1030-MG]</li>
+  <li>Other minor help fixes. <b>[MG]</b></li>
+  <li>Attempting to run an empty SQL query via any command/function now gives a better error/return value. Reported by <em>Qon</em>. <b>[MG]</b></li>
+  <li>Added some tests for <code>json()</code>, and more tests for <code>ljust()</code>/<code>rjust()</code>. <b>[MG]</b></li>
+  <li>Guests can no longer <code>@channel/recall</code> channels they aren&#39;t on. <b>[MG]</b></li>
+  <li>The hardcode no longer strictly enforces permissions for <code>@wall</code>, <code>@rwall</code> or <code>@wizwall</code>; anyone who can passes the normal command restriction can now use them. <b>[MG]</b></li>
+  <li>Add references to &#39;help channel functions&#39; to various channel function help entries. By Qon.</li>
+ </ul>
+
+<h3>Hardcode</h3>
+
+ <ul>
+  <li>Clean up some more remnants of the previous configure package&#39;s naming convention in favor of autoconf style ones. <b>[SW]</b></li>
+  <li>OpenBSD compilation fixes. <b>[SW]</b></li>
+  <li>Support authorization of ssl_slave forwarded connections on NetBSD, OpenBSD. <b>[SW]</b></li>
+  <li>Remove old FAM-based file monitoring code, due to bitrot and FAM&#39;s last release being 2003. <b>[SW]</b></li>
+  <li>Add git revision, if present, to <code>@version</code> &amp; <code>version()</code>. [994-TK]</li>
+  <li>Log files that grow over a user-specified size can now be rotated or trimmed down. <b>[SW]</b></li>
+  <li>game/restart is now auto-generated during &#39;make update&#39;. [928-TK]</li>
+  <li>Fixed a memory leak in <code>@switch</code>. <b>[MG]</b></li>
+  <li>A bug in <code>@lock</code> allowed invalid lock names to be used. <b>[MG]</b></li>
+  <li>Added support for the General MUD Communication Protocol (GMCP). See http://www.gammon.com.au/gmcp for more info. Requested by Qon. <b>[MG]</b></li>
+  <li>Choosing what scheme is used in compressing attribute text in-game is now a run-time option set in mush.cnf, not options.h <b>[SW]</b></li>
+  <li>Minor fixes and resource cleanups reported by Qon. <b>[MG]</b></li>
+  <li>An off-by-one error led to passwords occassionally being hashed incorrectly and needing to be reset. Reported by <em>Glass</em>. <b>[MG]</b></li>
+  <li>Old-style raw ANSI codes (from old dbs, SQL, etc) was sometimes mistakenly stripped when sent to a client. Found and fixed by Qon. [1050]</li>
+  <li>Some <code>@mail</code> selectors incorrectly selected all mail in the current folder. Found and fixed by Qon. [1055]</li>
+ </ul>
+
+</body>
+</html>

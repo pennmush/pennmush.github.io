@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>PennMUSH 1.7.6 Changelog</title>
+ <link rel="stylesheet" href="mushdoc.css">
+</head>
+<body>
+<header>
+<h1 class="title">PennMUSH 1.7.6 Changelog</h1>
+</header>
+<hr>
+<h2>Version 1.7.6 patchlevel 16 (April 28, 2004)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>PCRE updated to 4.5 <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 15 (January 25, 2004)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Improved freebsd hints. <b>[SW]</b></li>
+  <li>Channel user memory allocation error corrected.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 14 (September 23, 2003)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Fix to help <code>@search2</code> by LeeLaLimaLLama<code>@M</code>*U*S*H.</li>
+  <li>The max file descriptor could get stomped in some cases. <b>[SW]</b></li>
+  <li>Powers and toggles on destroyed objects are reset, as they  caused anomalous lsearch/haspower behavior. Report by Mordie<code>@M</code>*U*S*H.</li>
+  <li>Changing channel privs and loading channels with objects no longer permitted could cause crashes. Report by Septimus<code>@SW</code> RP Forum.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 13 (August 11, 2003)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Calling <code>panic()</code> while in the middle of a panic dump would cause a loop. Reported by <em><b>[EEH]</b></em>. <b>[SW]</b> </li>
+  <li>Outdated mention of compose.csh removed from compose.sh.SH. Reported by <em>Cheetah<code>@M</code>*U*S*H</em>.</li>
+  <li><code>timestring()</code> dealt wrongly with large arguments. Reported by <em>Jules<code>@M</code>*U*S*H</em>. <code>timefmt()</code> had a similar problem, reported by Luke<code>@M</code>*U*S*H.</li>
+  <li>Better checking of db save failures. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 12 (June 23, 2003)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>Users no longer see last connection information when they  connect to Guests. Suggested by <em>Jules<code>@M</code>*U*S*H</em>.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Potential problem with ambigious names in the information functions  fixed. <b>[SW]</b></li>
+  <li>The &#39;chat&#39; config group is no longer displayed when CHAT_SYSTEM isn&#39;t defined. Report by Mike Griffiths. <b>[SW]</b></li>
+  <li>cygwin install instructions changed to remove obsolete exim version information. Suggested by <em>Cheetah<code>@M</code>*U*S*H</em>.</li>
+  <li>Objects with user-defined locks had problems with finding built-in locks on the object. Reported by <em>Walker<code>@M</code>*U*S*H</em>. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 11 (June 1, 2003)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>The restart script now insures that GAMEDIR is a real directory and CONF_FILE exists therein before proceeding. Suggested by <em>Philip Mak</em>.</li>
+  <li>Attribute flag setting messages are more verbose. Suggested by <em>Mike Griffiths</em></li>
+  <li>See_All players may use the <code>ports()</code> function. Suggested by <em> Mike Griffiths</em>.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Wizards can no longer <code>@chzone</code> God. Report by Kevin<code>@M</code>*U*S*H.</li>
+  <li>Help fixes by Mike Griffiths.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 10 (May 13, 2003)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>PCRE (the regex matching engine we use) is updated to version 4.2. <b>[SW]</b></li>
+  <li><code>@mail/file</code> now unclears the cleared bit when filing <code>@mail</code>. Suggested by <em>Philip Mak</em>.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>@edit</code> is better with editing ansi. Reported by <em>Trispis<code>@M</code>*U*S*H</em>. <b>[SW]</b></li>
+  <li>Help file cleanup. <b>[SW]</b></li>
+  <li><code>@warnings</code> about missing FAILURE messages were not correctly  checked, causing false positives. Reported by <em>Cheetah</em>.</li>
+  <li>Page message no longer ends in a period. Suggested by <em>Time<code>@M</code>*U*S*H</em>.</li>
+  <li>Help fixes by Intrevis<code>@M</code>*U*S*H.</li>
+  <li>BASE_ROOM can&#39;t be destroyed any more. Suggested by <em>Philip Mak</em>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 9 (April 9, 2003)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>index-files.pl now produces a sensible warning for duplicate help topics, rather than a perl warning. Suggested by <em>Cheetah<code>@M</code>*U*S*H</em>.</li>
+  <li>Spellnum cosmetic bug with &#39;seventeen&#39; fixed. Report by Jules<code>@M</code>*U*S*H.</li>
+  <li>Another <code>wrap()</code> buglet tracked down and fixed. Probably the one reported by Nymeria<code>@M</code>*U*S*H.</li>
+  <li>Memory leak in <code>flip()</code> and <code>scramble()</code> fixed.</li>
+  <li>Configure test for /dev/urandom from 1.7.5 got left out by mistake.</li>
+  <li>Critical overflow bug in command argument parsing fixed.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 8 (March 21, 2003)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>The CHANGES file has been renamed so that it always refers to a version number, and utils/mkvershelp.pl now generates seperate .hlp files for each CHANGES file. This will prevent patch hunk  failures when two patchlevels of different versions are released and both used to try to modify the same .hlp file.</li>
+  <li>Channel names are restricted to printable characters, with no leading or trailing spaces. Suggested by <em>Letters<code>@M</code>*U*S*H</em>.</li>
+  <li>Calling <code>time()</code> with any argument other than &#39;utc&#39; now generates an error. Report by Time<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Some redundant code cleanup in look_exits suggested by Vadiv<code>@M</code>*U*S*H.</li>
+  <li>Help file fixes by Ves<code>@M</code>*U*S*H, Jules<code>@M</code>*U*S*H, Cerekk<code>@bDv</code>.</li>
+  <li>When page_aliases is on, there&#39;s a space between the player&#39;s name and alias. Suggested by <em>Saturn<code>@M3</code></em>.</li>
+  <li>Command-checking for ZMR contents didn&#39;t function when a ZMR was used as a player&#39;s personal zone. Reported by <em>BlaZe<code>@M</code>*U*S*H</em>.</li>
+  <li>Default idle_timeout was different in code and mushcnf.dst. Reported by <em>James Bond<code>@M</code>*U*S*H</em>. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 7 (February 20, 2003)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Some sloppy coding in src/access.c could generate runtime  debugging exceptions. Reported by <em>BladedThoth<code>@M</code>*U*S*H</em>.</li>
+  <li><code>wrap()</code> could behave incorrectly when a line was exactly the length of the wrap width and the total input size was larger than  any previously wrapped input. Reported by <em>Liam<code>@Firdeloth</code></em>.</li>
+  <li>Extra NUL characters were sent after telnet codes, which  confused Mudnet and maybe some clients. Patch by Alierak.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 6 (January 23, 2003)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li><code>nearby()</code> always works for see_all players. Reported by <em>Sparta</em>.</li>
+  <li><code>findable()</code> now requires that executor control either the object or the victim or be see_all. Reported by <em>Sparta</em>.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>POWER^ and CHANNEL^ locks tested the wrong object. <b>[SW]</b></li>
+  <li><code>@grep</code>, <code>@wipe</code>, and <code>@edit</code> now report when no attributes are matched. Suggested by <em>Procyon<code>@M3</code></em></li>
+  <li>Changes to telnet negotiation strings to match those in PennMUSH 1.7.7, which seems to fix some problems with display of connect.txt in some clients. Report by Howie<code>@NewFrontier</code>. Patch by Time<code>@M</code>*U*S*H.</li>
+  <li><code>@mail/silent</code> wasn&#39;t unless you used /send too. Report by Moe<code>@Chicago</code>.</li>
+  <li>Wizards could set attributes on garbage objects (which were useless, but may have leaked memory needlessly). Reported by <em>Taz<code>@M</code>*U*S*H</em>.</li>
+  <li><code>@chan/hide</code> didn&#39;t check for hide permissions properly in some cases. Reported by <em>Tanaku<code>@M</code>*U*S*H</em>.</li>
+  <li>Better explanation of when regexp matching is case sensitive vs. insensitive. Suggested by <em>Jake<code>@BrazilMUX</code></em>, Brazil<code>@BrazilMUX</code>, and Vadiv<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 5 (January 7, 2003)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>1.7.6p4 broke &#39;go #dbref&#39;, which broke the ability of followers  to follow. Reported by <em>Ellis<code>@M</code>*U*S*H</em>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 4 (January 2, 2003)</h2>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li>English-style matching now applies to exits in the room (so &#39;1st down&#39; can match the first &#39;down&#39; exit if you&#39;re not carrying anything that matches &#39;down&#39;). New english-style matching adjective &#39;toward&#39; restricts the match to exits (so: &#39;look toward 1st down&#39;).</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Code cleanup to fix several potential buffer overflows.</li>
+  <li>The wildcard matcher had problems with backslash escapes in some cases, making matching a : in a $command very hard. Reported by <em>Wayne<code>@PDX</code></em>.</li>
+  <li><code>@chzone</code> could cause crashes on some systems.  Reported by <em>Wayne<code>@PDX</code></em>.</li>
+  <li>When two exits match, one is no longer chosen at random. Instead, the ambiguity should be reported as an error. Reported by <em>Intrevis<code>@M</code>*U*S*H</em>.</li>
+  <li>The dbref returned by locate when given the X parameter is no longer random, but the last one found (as per the help).</li>
+  <li>Serious bug in reading locks from the db on startup corrected.</li>
+  <li>The profiling timer is turned off duing dumps, as some systems (FreeBSD?) appear to continue to use it and interrupt dumps due to cpu limiting. Reported by <em>Nathan Schuette</em>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 3 (December 22, 2002)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>call_limit now controls the maximum recursion in process_expression, instead of maximum calls to p_e per command cycle. This still limits stack size, but doesn&#39;t get in the way of massive code nearly as much. People using a very high call_limit value should probably lower it significantly. Patch by Philip Mak.</li>
+  <li>Improved error messages for many database information functions. Notably, several functions that require at least one argument, now complain if they don&#39;t get it rather than returning silently. Suggested by <em>Intrevis<code>@M</code>*U*S*H</em>. <b>[SW]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>@warnings</code> are no longer shown on GOING objects. Suggested by <em>Philip Mak</em>.</li>
+  <li>Help fixes by Intrevis, Time, and Ambrosia<code>@M</code>*U*S*H</li>
+  <li>Bug in <code>@decomp/skipdefaults</code> reported by Philip Mak. <b>[SW]</b></li>
+  <li>Tweaks to utils/mkcmds.sh <b>[SW]</b></li>
+  <li><code>home()</code> on a room acts as described in the help. Reported by <em>Intrevis<code>@M</code>*U*S*H</em>. <b>[SW]</b></li>
+  <li>whisper/noisy double-notified the whisperer. Reported by <em>Philip Mak</em>.</li>
+  <li>Crash bug in <code>@mail</code> fixed. Reported by <em>Titan<code>@OtherSpace</code></em>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 2 (December 17, 2002)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>An invalid range argument to <code>@search/lsearch</code> is now coerced to be the lowest or highest dbref, as appropriate. The search range is also now inclusive. And lsearch(&lt;player&gt;) works. Suggested by <em>Philip Mak</em>.</li>
+  <li>mushcnf.dst now includes a default value for call_limit. Suggested by <em>Philip Mak</em>.</li>
+  <li>Testing for whether the mush is already running in the restart script has been improved by Philip Mak.</li>
+ </ul>
+
+<h3>Internationalization</h3>
+
+ <ul>
+  <li>Polish translation files (partial) are now being distributed.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Fix to win32 warnings. <b>[EEH]</b></li>
+  <li>Under Win32, a failed <code>accept()</code> call in bsd.c would not be correctly handled. Report by BladedThoth<code>@M</code>*U*S*H.</li>
+  <li>Help fixes by Luigi<code>@8bitMUSH</code>, Kyieren<code>@M</code>*U*S*H, Intrevis<code>@M</code>*U*S*H.</li>
+  <li><code>@map</code> crash bug repoted by Philip Mak, fixed by Walker<code>@M</code>*U*S*H.</li>
+  <li>Modifiying locks now updates the object&#39;s modification time. Reported by <em>Philip Mak</em>.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 1 (November 26, 2002)</h2>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>When using <code>@nuke</code> to destroy a SAFE object when really_safe is &quot;no&quot;, provide a warning (but schedule destruction anyway). Suggested by <em>Cerekk<code>@bDV</code></em>.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>VS.NET project file was defaulting to signed instead of unsigned chars, causing crashes. Fixed by BladedThoth<code>@M</code>*U*S*H. Several places where we should have cast things to unsigned to avoid this kind of thing have been fixed. <b>[SW]</b></li>
+  <li>The *<code>emit()</code> functions now set the orator correctly. Reported by <em>Philip Mak</em>.</li>
+  <li>ccom and cplr are cleared after each command execution so they can&#39;t be leaked as easily. Suggested by <em>Philip Mak</em>.</li>
+  <li>Linting.</li>
+  <li>If God gives the wrong password to <code>@logwipe</code>, provide some feedback. Suggested by <em>Cerekk<code>@bDv</code></em>.</li>
+  <li>mkcmds.sh was needlessly rebuilding several autogenerated files.</li>
+  <li>The rules for flag characters shown in object headers now allows F_INTERNAL flags to be shown (like GOING), just the same as when you get a full flag list on examine. Report by Philip Mak.</li>
+  <li>Help fixes by Bird<code>@M</code>*U*S*H, Intrevis<code>@M</code>*U*S*H, Philip Mak.</li>
+  <li><code>@search</code> type=something would report an error AND match the entire database when something wasn&#39;t object, player, exit or room. <b>[SW]</b></li>
+  <li>Cosmetic bug in <code>@malias/list</code> fixed. Report by Tanaku<code>@M</code>*U*S*H.</li>
+  <li>The info_slave now properly obeys the use_dns setting in mush.cnf. This requires a full shutdown to put into effect. Report by BlaZe<code>@M</code>*U*S*H. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.7.6 patchlevel 0 (November 11, 2002)</h2>
+
+<h3>License</h3>
+
+ <ul>
+  <li>PennMUSH 1.7.6 and later is now released under the Artistic License. This is an OSI-compliant open source license. See the file COPYRITE for the complete license text.</li>
+ </ul>
+
+<h3>   Notable changes from the old license</h3>
+
+ <ul>
+  <li>No restrictions on commercial use</li>
+  <li>No requirement to inform developers of improvements or submit modifications, though it&#39;s still a nice thing to do. Note, however that if you redistribute a modified version of PennMUSH, you MUST include source code. The PennMUSH devteam thanks the copyright holders of TinyMUD, TinyMUSH 2.0, TinyMUSH 2.2, and TinyMUSH 3.0 for their assistance in making this possible.</li>
+ </ul>
+
+<h3>Documentation</h3>
+
+ <ul>
+  <li>The README file has been split into README, INSTALL, UPGRADING, and I18N files.</li>
+ </ul>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li>Rooms now hear remits and lemits in them, and can be pemitted to. This behavior now matches that of other MUSH servers.</li>
+  <li>AUDIBLE objects now propagate sound <code>@remit</code>&#39;d into them. Report by <b>[SW]</b>.</li>
+  <li>Added <code>@lock/destroy</code> to limit who can destroy a DESTROY_OK  object. Suggested by <em>Luigi<code>@8bit</code></em>.</li>
+  <li>PARANOID nospoof notification now includes the name of the object&#39;s owner as well. Suggested by <em>Philip Mak</em>.</li>
+  <li><code>room()</code> no longer notifies the executor of permission errors out of band. It now just returns the error instead, like <code>loc()</code>. Suggested by <em> Philip Mak</em>.</li>
+  <li>Creation times are now public information via <code>ctime()</code>; permission to examine is no longer required. This allows objects to use, e.g., <var>%#</var>@[ctime(<var>%#</var>)] as a historically unique identifier of an enactor. Suggested by <em>Philip Mak</em>.</li>
+  <li>The reboot.db is now versioned. This will make it possible to <code>@shutdown/reboot</code> across patchlevels that change the reboot.db format (in 1.7.7 and later versions).</li>
+  <li>Rooms on an <code>@forwardlist</code> now receive the message as a remit, rather than a pemit. Suggested by <em>BladedThoth<code>@M</code>*U*S*H</em>.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>More work on the great <code>table()</code> bug. Looks like a fix. <b>[SW]</b></li>
+  <li>Improved VS.NET project files by BladedThoth.</li>
+  <li>Plugged a memory leak in deleting <code>@locks</code>. <b>[SW]</b></li>
+  <li>Fixed <code>@lock</code>-related crash bug reported by Philip Mak. <b>[SW]</b></li>
+  <li>General linting.</li>
+  <li>process_expression ignores the [ in ansi escapes. Reported in the context of #$ by Philip Mak. <b>[SW]</b></li>
+  <li>Internal changes to <code>compress()</code>, which now returns an allocated string. Under Huffman compression, it should no longer be possible to overflow a buffer with a pathological compression tree. Initial concern voiced by Eyal Sagi.</li>
+  <li>Table and ansi didn&#39;t play well together. Reported by <em>Ellis<code>@M</code>*U*S*H</em>.</li>
+  <li>Config file reading should be better on Macs. Patch by Philip Mak.</li>
+  <li>Obsolete checks for OLD_ANSI are removed. <b>[SW]</b></li>
+  <li>Crash bug in <code>@function</code> fixed. Report by Dallimar<code>@Hemlock</code>.</li>
+  <li>Change to message on failed attribute flag set, to make it more generic to cover all the possible failures. Report by Cerekk<code>@bDv</code>.</li>
+  <li>Translations to some languages were broken. Fixed now. Report by Sbot<code>@M</code>*U*S*H.</li>
+  <li>QUEUE is now visible if you control an object, as promised in the help. Reported by <em>Luigi<code>@8bit</code></em>.</li>
+  <li>Help fixes by Mortimer<code>@M</code>*U*S*H, Bellemore<code>@M</code>*U*S*H, Hyacinth<code>@8bit</code>, <b>[EEH]</b>, BladedThoth<code>@M</code>*U*S*H, Moe<code>@M</code>*U*S*H, Viila<code>@M</code>*U*S*H, Walker<code>@M</code>*U*S*H.</li>
+  <li>Comment in src/Makefile fixed by Vadiv<code>@M</code>*U*S*H.</li>
+  <li>A weird crash on <code>@shutdown/reboot</code>, probably attributable to a broken library or system call, is now worked-around. Report by Solarius<code>@SWWF</code>.</li>
+  <li>Audible objects with <code>@forwardlist</code> set are no longer concealed by the DARK flag.</li>
+  <li>Win32 project files no longer use the win32/ directory as an include directory, which causes problems. Reported by <em>Gepht</em>.</li>
+ </ul>
+
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>PennMUSH 1.8.1 Changelog</title>
+ <link rel="stylesheet" href="mushdoc.css">
+</head>
+<body>
+<header>
+<h1 class="title">PennMUSH 1.8.1 Changelog</h1>
+</header>
+<hr>
+<h2>Version 1.8.1 patchlevel 10 (September 13, 2006)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Cleaned up some compiler warnings. <b>[SW]</b></li>
+  <li>The AAHEAR and AMHEAR attribute flags work on listening parents.  Report by PAD<code>@M</code>*U*S*H. <b>[GM]</b></li>
+  <li>Flags without a letter would truncate the list of set flag letters. Reported by <em>Intrevis<code>@M</code>*U*S*H and Nathan Baum</em>. Patched by latter.</li>
+  <li>Win32 lacks the LC_MESSAGES <code>setlocale()</code> category. Reported by <em>Intrevis</em>.</li>
+  <li>Trying to ignore signals could crash on Win32. Reported by <em>Intrevis</em>.</li>
+  <li>Fixed parse errors in non-C99 compilers. Reported by <em>Intrevis</em>.</li>
+  <li>Help fixes by Talvo, Sketch</li>
+  <li>Fixes for 64-bit platforms <b>[SW]</b></li>
+  <li><code>@dump/paranoid</code> produced corrupt databases.  Reported by <em>Marvin<code>@M</code>*U*S*H</em>. <b>[SW]</b></li>
+  <li>Better support for dealing with databases with a different number of  attributes on an object than expected. Marvin and Luke. <b>[SW]</b></li>
+  <li>Fixed the example in cmdlocal.c. Reported by <em>Tokeli <b>[SW]</b></em></li>
+  <li>Fix in CHAT_TOKEN_ALIAS. <b>[GM]</b></li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>link()</code> now takes an optional third argument to make it act like <code>@link/preserve</code>. Suggested by <em>qatoq<code>@ST</code>:Foundations</em>.</li>
+ </ul>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li>The hash table code now calls a cleanup function on data when deleting an entry. <b>[SW]</b></li>
+  <li>The above is used in db.c, function.c and plyrlist.c <b>[SW]</b></li>
+  <li><code>@config</code> compile reports if MySQL support is present. (This does not  mean the game is configured to use it.) <b>[SW]</b></li>
+  <li>restart copies log files from the last time the mush was running to game/save/ instead of deleting them. <b>[SW]</b></li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.1 patchlevel 9 (July 9, 2006)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Fixes from 1.8.0p13.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.1 patchlevel 8 (June 3, 2006)</h2>
+
+<h3>Attributes</h3>
+
+ <ul>
+  <li>New &#39;AAHEAR&#39; and &#39;AMHEAR&#39; attribute flags, when set on an ^listen attribute, cause it to behave like <code>@aahear</code> or <code>@amhear</code> respectively, instead of like <code>@ahear</code>. Suggested by <em>Jules<code>@M</code>*U*S*H</em>. Patch by Talvo<code>@M</code>*U*S*H.</li>
+  <li>New UNIMPLEMENTED_COMMAND command handles commands that are known but not implemented (currently just <code>@SQL</code>). By default, produces a standard message, but can now be <code>@hooked</code>, etc. Suggested by <em>Talvo<code>@M</code>*U*S*H</em>. <b>[TAP]</b>.</li>
+  <li><code>@conformat</code> and <code>@invformat</code> are now passed a |-delimited list of object names, unparsed in the default fashion, as <var>%1</var>. Patch by Talvo<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>default()</code> can now take any number of obj/attr cases. Suggested by <em>Nathan Baum</em>, patch by Talvo<code>@M</code>*U*S*H.</li>
+  <li><code>lwhoid()</code>, <code>mwhoid()</code>, <code>xwhoid()</code>, <code>xmwhoid()</code> work like <code>lwho()</code>, etc. but return objids instead of dbrefs. Patch by Talvo<code>@M</code>*U*S*H.</li>
+  <li><code>stringsecs()</code> converts timestrings to seconds. Patch by Talvo<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li><var>%u</var> is now set to the evaluated typed $command (when a $command is matched) and is available to locks. Suggested by <em>Jules<code>@M</code>*U*S*H</em>, patch by Talvo<code>@M</code>*U*S*H.</li>
+  <li>Rooms reachable from FLOATING rooms are now considered topologically connected, just like rooms reachable from the base room. Patch by Nathan Baum.</li>
+  <li>%i0-%i9 evaluates to itext(0)-itext(9) for convenience in <code>iter()</code>.  Suggested by <em>Nathan Baum</em>. Patch by Talvo<code>@M</code>*U*S*H.</li>
+  <li>When safer_ufun is on, you must control an object to <code>@function</code> an attribute on it. This prevents, e.g., mortals with <code>@function</code> power from making attributes on wizard objects into <code>@functions</code>.  Suggested by <em>Talvo<code>@M</code>*U*S*H</em>.</li>
+  <li>Internal eval_lock_with function added to support passing special <var>%0</var>/<var>%1</var> values to lock evaluations. Suggested by <em>Malix<code>@8bit</code></em>.</li>
+  <li>Improved <code>@uptime</code> display by Ambrosia<code>@M</code>*U*S*H.</li>
+  <li>Players may <code>@search</code> a ZMP if they pass the zone lock. Patch by Talvo<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>cbuffer()</code> crash fixed. Report by qa&#39;toq<code>@ST</code>:Foundations. <b>[GM]</b></li>
+  <li>regex crash bug fixed. <b>[GM]</b></li>
+  <li><code>insert()</code> added an extra delimiter when inserting at end of list. Report by Sangman. <b>[SW]</b></li>
+  <li>make distclean is more thorough. Patch by Ranmir<code>@M</code>*U*S*H.</li>
+  <li>EQSPLIT commands with no equal sign that were hooked were passed to the  hook attribute with an equal sign (and nothing to the right). Fixed. Suggested by <em>Talvo<code>@M</code>*U*S*H</em>.</li>
+  <li>zwho/zmwho can now be used by see_all players on any zone. Suggested by <em>Talvo<code>@M</code>*U*S*H</em>.</li>
+  <li><code>crecall()</code> now accepts 1 or 2 arguments, as promised. Report by Sketch<code>@M</code>*U*S*H.</li>
+  <li>attrib_set(obj/attr,) sets the attribute to a single space when EMPTY_ATTRS is off. Patch by Talvo<code>@M</code>*U*S*H.</li>
+  <li>Portability fix in fun_speak. <b>[EEH]</b></li>
+  <li>Fix to TZ parsing in src/funtime.c by Jules<code>@M</code>*U*S*H.</li>
+  <li>Fix to <code>speak()</code> for fragments of speech by Talvo<code>@M</code>*U*S*H based on report by Trelane<code>@M</code>*U*S*H.</li>
+  <li>Typo fixes in game/aliascnf.dst by Talvo<code>@M</code>*U*S*H.</li>
+  <li>Help fixes by Talvo<code>@M</code>*U*S*H, Sketch<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.1 patchlevel 7 (March 21, 2006)</h2>
+
+<h3>Major changes</h3>
+
+ <ul>
+  <li>The FIXED flag&#39;s restriction on &#39;home&#39; is no longer applied in the hardcode but through restrict.cnf. A new entry has been added to restrictcnf.dst for this -- people running existing MUSHes that use the FIXED flag will want to copy this to their restrict.cnf.</li>
+ </ul>
+
+<h3>Locks</h3>
+
+ <ul>
+  <li><code>@lock/take</code> controls who may &#39;get&#39; something from a container  or location; note that <code>@lock/enter</code> no longer controls this on containers but only controls who may &#39;enter&#39;. The container&#39;s TAKE_LOCK`*FAILURE attributes provide messages on a failed get. Suggested by <em>BladedThoth<code>@M</code>*U*S*H</em>. Patch by Talvo<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li><code>@chan/recall</code> can take an extra argument to specify the line to start the recall from. Suggested by <em>Sholevi<code>@M</code>*U*S*H</em>. Patch by  Talvo<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>ulambda()</code> is a version of <code>u()</code> that can take #lambdas. <b>[GM]</b></li>
+  <li><code>speak()</code> for language processing. Suggested by <em>Nymeria<code>@M</code>*U*S*H</em>. Patch by Talvo<code>@M</code>*U*S*H. [3]</li>
+  <li><code>width()</code> and <code>height()</code> take an optional second argument to set the default values. Patch by Nathan Baum.</li>
+  <li><code>unique()</code> function removes contiguous duplicates in lists. <b>[SW]</b></li>
+  <li><code>nextdbref()</code> returns the next dbref on the free list.  Suggested by <em>Jules<code>@M</code>*U*S*H</em>. Patch by Talvo<code>@M</code>*U*S*H.</li>
+  <li>Specifying more than one type to <code>locate()</code> now makes each of them preferred (not just the last one). Suggested by <em>Anyasha<code>@ST</code>:Foundations</em>.</li>
+  <li><code>namelist()</code> parses a list of dbrefs and possibly-quoted names a la page and returns the corresponding dbrefs. Patch by Talvo<code>@M</code>*U*S*H.</li>
+  <li><code>crecall()</code> is a functional form of <code>@chan/recall</code>. Suggestd by Cheetah and Trinsec<code>@M</code>*U*S*H. Patch by Talvo<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Flags</h3>
+
+ <ul>
+  <li>The LIGHT flag now overrides the DARK flag consistently. DARK objects will show up in LIGHT rooms and anything set both LIGHT and DARK is effectively LIGHT. Suggested by <em>Renee<code>@ShoreSide</code></em>. Patch by Talvo<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li><code>@poll</code> by itself now displays the  current poll instead of clearing it. <code>@poll/clear</code> does that. <b>[SW]</b></li>
+  <li>Added aliases for <code>@atrlock/</code><code>@atrchown/atrlock</code> to &#39;attr&#39; versions in aliascnf.dst. Suggested by <em>Talvo<code>@M</code>*U*S*H</em>.</li>
+  <li>Players who already have a forbidden name (as their name or alias) may change to that name. Patch by Talvo<code>@M</code>*U*S*H.</li>
+  <li>New <code>alias_flag()</code> and <code>alias_power()</code> hardcode functions for hackers. Patch by Talvo<code>@M</code>*U*S*H.</li>
+  <li>Mortals can use <code>@power/list</code> and <code>@power</code> &lt;power&gt; commands. Patch by Talvo<code>@M</code>*U*S*H.</li>
+  <li>Restriction-checking by power fixed in cases where no flag restrictions were applied. Patch by Talvo<code>@M</code>*U*S*H.</li>
+  <li>New type GARBAGE for <code>@search/lsearch</code> type class.</li>
+  <li><code>@pemit/list</code> now accepts player names as well as dbrefs, a la page. Patch by Talvo<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>pcre.c includes config.h again. <b>[EEH]</b>.</li>
+  <li>Help fixes by Talvo<code>@M</code>*U*S*H.</li>
+  <li>Fixes from 1.8.0p12</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.1 patchlevel 6 (February 25, 2006)</h2>
+
+<h3>Major Changes</h3>
+
+ <ul>
+  <li>pcre updated to 6.4. This includes such nifty features and named captures. <b>[SW]</b></li>
+  <li>NT_TCP code has been removed from the server. It was deemed less useful than keeping the networking code unitary and the ability to <code>@shutdown/reboot</code>. Patch by Nathan Baum.</li>
+ </ul>
+
+<h3>Flags</h3>
+
+ <ul>
+  <li>New LOUD flag (admin-settable) causes an object to bypass speech (including chat) and interaction locks. Admin and others with Pemit_All no longer pass interaction locks automatically unless they are also LOUD. Patch by Cheetah<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Locks</h3>
+
+ <ul>
+  <li>New DBREFLIST^&lt;attrib&gt; lock key checks to see if the enactor appears in a list of dbrefs/objids stored on an attribute of the object, simplifying a very common need. Suggested by <em>NightDaemon<code>@M</code>*U*S*H</em>, patch by Cheetah<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Powers</h3>
+
+ <ul>
+  <li>Many_Attribs power allows an object to have more attributes than the max_attrs_per_obj parameter. Suggested by <em>Nymeria<code>@M</code>*U*S*H</em>.</li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>decompose()</code> now decomposes ansi codes into <code>ansi()</code> calls. Patch by Sketch<code>@M</code>*U*S*H.</li>
+  <li><code>mapsql()</code> efficiently feeds sql query results to an attribute. <b>[GM]</b></li>
+  <li><code>wildgrep()</code>/<code>wildgrepi()</code> are versions of <code>grep()</code>/<code>grepi()</code> that now take  wildcard patterns instead of substrings. <b>[SW]</b></li>
+  <li><code>regmatch()</code>/<code>regedit()</code> now has a more flexible syntax for assigning subpatterns to %q-registers. <b>[SW]</b></li>
+  <li><code>decompose()</code> no longer inserts an initial backslash all the time. Suggested by <em>Trinsec<code>@M</code>*U*S*H</em>.</li>
+  <li><code>ordinal()</code> returns the spelled-out ordinal form of an integer. Suggested by <em>Malone<code>@HavenMUSH</code></em>.</li>
+ </ul>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li>Font size tags (for pueblo) are not quite so huge for room names.</li>
+  <li>The /noeval switch for <code>@command</code> is now called /noparse. Patch by Nathan Baum.</li>
+  <li>hints/cygwin.sh has been removed, as no hints were needed to build on cygwin when tested with 1.5.19-4. win32/README.cygwin has been added to document the cygwin build process.</li>
+  <li>Added hints/darwin-fink.sh and README.OSX. <b>[SW]</b></li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Track_Money objects with No_Pay still reported coins lost to queue costs, even though they didn&#39;t pay them. Report by Cheetah<code>@M</code>*U*S*H. <b>[GM]</b></li>
+  <li>Help fixes by Trinsec<code>@M</code>*U*S*H, Cheetah<code>@M</code>*U*S*H.</li>
+  <li>Various <var>%c</var> weirdnesses fixed by Cheetah<code>@M</code>*U*S*H.</li>
+  <li>Better message in restart when mush.cnf not found by Talvo<code>@M</code>*U*S*H.</li>
+  <li><code>@alias</code> provides more specific error messages for invalid aliases of various sorts. Suggested by <em>Intrevis<code>@M</code>*U*S*H</em>.</li>
+  <li>Function restriction localize now appears in <code>@function</code> info output. Better error messages when attempting to use invalid function restrictions.  Reported by <em>Trinsec<code>@M</code>*U*S*H</em>.</li>
+  <li>Linting of warnings. <b>[SW]</b></li>
+  <li>Command and function names may now really start with punctuation  characters.  Reported by <em>Talvo<code>@M</code>*U*S*H</em>.</li>
+  <li>Fixes from 1.8.0p11.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.1 patchlevel 5 (January 29, 2006)</h2>
+
+<h3>Major Changes</h3>
+
+ <ul>
+  <li><code>@attrib/access</code> no longer treats one-word flag lists that don&#39;t match a single flag as a set of flag characters. You must now always specify a space-separated list of full flag names.</li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li><code>@list/locks</code> and list(locks) lists all defined locktypes. Suggested by <em>Jules<code>@M</code>*U*S*H</em>, patch by Walker<code>@M</code>*U*S*H.</li>
+  <li>New <code>@search</code> classes &#39;start&#39; (nth element of return list to start with) and &#39;count&#39; (how many elements to show, from &lt;start&gt;). Useful for getting results a page at a time. Patch by Walker<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>nsearch()</code>/<code>nlsearch()</code>/<code>nchildren()</code> return the number of objects that would be returned by the equivalent search/lsearch/children call. Patch by Walker<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Minor Changes</h3>
+
+ <ul>
+  <li><code>delete()</code> can use a negative length argument to delete characters leftward, a la MUX. [MUX, SW].</li>
+  <li>In <code>@mail</code> commands, &lt;n&gt;: is now recognized as meaning &#39;all messages in folder n&#39;. Notably, <code>@mail</code> 3: now lists all messages in folder 3, rather than reading all messages in folder 3. Patch by Sketch<code>@M</code>*U*S*H.</li>
+  <li>When one alias in a list of aliases being set is invalid, we now report it with specificity. Suggested by <em>Talvo<code>@M</code>*U*S*H</em>.</li>
+  <li>You no longer need to escape commas in <code>decompose()</code>. Suggested by <em>Trinsec<code>@M</code>*U*S*H</em>.</li>
+  <li><code>@sitelock</code> rules for Guest access can now be specified per-guest character. Suggested by <em>Talvo<code>@M</code>*U*S*H</em>.</li>
+  <li>process_expression now parses for regex pattern captures by default, so lots of things will work better under <code>regedit()</code>. Use of a ufun clears the captured registers so dollar signs in ufuns don&#39;t need escaping. Patch by Walker<code>@M</code>*U*S*H.</li>
+  <li>Refactoring of ufun code by Walker<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Help fixes by Trinsec<code>@M</code>*U*S*H and Talvo<code>@M</code>*U*S*H and qa&#39;toq<code>@M</code>*U*S*H.</li>
+  <li>Crash bug in page fixed. Reported by <em>the fine folks at ST:Foundation</em>. Patch by Walker<code>@M</code>*U*S*H.</li>
+  <li>Win32 portability fixes. <b>[EEH]</b></li>
+  <li>Fixes from 1.8.0p10.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.1 patchlevel 4 (December 6, 2005)</h2>
+
+<h3>Major Changes</h3>
+
+ <ul>
+  <li>Errors in matching switches to commands are ignored when the command is hook/ignored or hook/overriden, so you can override a built-in command and provide your own switches. Suggested by <em>Trinsec<code>@M</code>*U*S*H</em>.</li>
+ </ul>
+
+<h3>Mail</h3>
+
+ <ul>
+  <li><code>@mailfilter</code> attribute causes incoming mail to be be automatically filed to a folder if it evaluates to a folder name/number. Patch by Sketch<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li><code>@prompt/</code><code>@nsprompt</code> work like <code>@pemit/list</code>, but add a telnet GOAHEAD at the end of the message when emitting to players; players whose clients handle GOAHEAD (e.g. tf) will get the message displayed as a prompt in the input window. Suggested by <em>Trinsec<code>@M</code>*U*S*H</em>.</li>
+  <li>The PROMPT_NEWLINES socket command can be used to add a newline after the GOAHEAD in a prompt, for clients that mix up prompt lines with other output.</li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>namegrab()</code> and <code>namegraball()</code>. Patch by Walker<code>@M</code>*U*S*H.</li>
+  <li><code>prompt()</code> and <code>nsprompt()</code> (the function equivalents of <code>@prompt/</code><code>@nsprompt</code>).</li>
+  <li><code>textentries()</code>. Suggested by <em>Trinsec<code>@M</code>*U*S*H</em>.</li>
+  <li><code>cdesc()</code>, <code>cusers()</code>, <code>cmsgs()</code>, <code>cbuffer()</code>, <code>cstatus()</code>, <code>clflags()</code>  functions. Suggested by <em>d&#39;Ark<code>@M</code>*U*S*H</em>.</li>
+  <li><code>numversion()</code> returns Penn version as an integer (1008001004)  for softcode use.</li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li><code>@chan/list</code> works better for people who increase CHAN_NAME_LEN. Suggested by <em>Trinsec<code>@M</code>*U*S*H</em>.</li>
+  <li>Help fixes by Trinsec<code>@M</code>*U*S*H, Chili<code>@M</code>*U*S*H.</li>
+  <li>Several powers (tport_anything, tport_anywhere, no_money, no_quota, debit, sql_ok) are now aliased to TinyMUSH/TinyMUX equivalents as well, for better code portability. [3,MUX]</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>center()</code> behaves better when given a fourth argument but not a third one. Also fixes to cases where the right fill string is one longer than the left. Report by Ian<code>@M</code>*U*S*H</li>
+  <li>Fixes from 1.8.0p9.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.1 patchlevel 3 (September 15, 2005)</h2>
+
+  <li>Bugfixes from 1.8.0p8 applied.</li>
+<hr>
+<h2>Version 1.8.1 patchlevel 2 (September 5, 2005)</h2>
+
+<h3>Commands</h3>
+
+ <ul>
+  <li><code>@edit/check</code> shows the results of an <code>@edit</code> without actually doing it, to avoid inadvertent overediting. Patch by Walker<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>sortkey()</code> sorts a list by mapping each list element through a function and applying a standard sort type. Patch by Walker<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>&quot;% &quot; (percent-space) is now parsed to a literal percent-space, making it easier to type things like &quot;I&#39;m 50% happy&quot;. And % at end of line is parsed to a literal %.  Patch by Sketch<code>@M</code>*U*S*H.</li>
+  <li><code>@nameformat</code> now receives the default-formatted name as <var>%1</var> so you can edit from that if you prefer. Suggested by <em>Talvo<code>@M</code>*U*S*H</em>.</li>
+  <li>Added netbsd hints. Suggested by <em>Tyr<code>@M</code>*U*S*H</em>.</li>
+  <li><code>hastype()</code> can take a list of types to check for, not just one. <b>[SW]</b></li>
+  <li>Add <code>@function/preserve</code>, which does the same thing as the localize restriction. <b>[MUX]</b> <b>[SW]</b></li>
+  <li>Leaving out the &lt;filler&gt; argument to <code>align()</code> defaults it to a space. Suggested by <em>Tyr<code>@M</code>*U*S*H</em>, patch by Walker<code>@M</code>*U*S*H.</li>
+  <li>Improved error message for <code>setq()</code> with odd arguments. Report by Malix<code>@8bit</code>.</li>
+  <li>When variable exits fail due to invalid/not permitted destination, the enactor is told what the attempted destination was. Suggested by <em>Nathan Baum</em>.</li>
+  <li>Rooms may now <code>@search/search</code>() their owners. Suggested by <em>Kali<code>@M</code>*U*S*H</em>.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li><code>@function/restrict</code> mentioned in help. <b>[SW]</b></li>
+  <li>Clearer help on parallel setq. Suggested by <em>Trinsec<code>@M</code>*U*S*H</em>. <b>[TAP]</b></li>
+  <li><code>lsearch()</code> didn&#39;t refund pennies when it failed because of lack of  permissions or invalid search criteria. Reported by <em>Nathan Baum</em>. <b>[SW]</b></li>
+  <li><code>lsearch()</code> could return garbage objects. Report by Nathan Baum. <b>[SW]</b></li>
+  <li>%+ now only records argument count from last ufun, not from other (builtin) functions. Report by Cheetah<code>@M</code>*U*S*H.</li>
+  <li>Some linting of float comparisons. Report by Cheetah<code>@M</code>*U*S*H.</li>
+  <li>page &lt;player&gt;= now pages the player with a blank line instead of repaging the last paged player with &quot;&lt;player&gt;&quot;. Report by Cheetah<code>@M</code>*U*S*H.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.1 patchlevel 1 (June 27, 2005)</h2>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Players could set the &#39;internal&#39; attribute flag, which causes confusion. Report by Cooee<code>@PDX</code>.</li>
+  <li>Setting attribute flags by character alias did not work  properly.</li>
+ </ul>
+
+<hr>
+<h2>Version 1.8.1 patchlevel 0 (June 25, 2005)</h2>
+
+<h3>Major Changes</h3>
+
+ <ul>
+  <li>Players may have multiple aliases, by specifying a semicolon-separated list to <code>@alias</code>. Players may list their usual <code>@name</code> as one of their aliases, and the <code>@name</code> command may be used to switch to any alias. The maximum number of aliases per non-Wizard player may be limited by the  max_aliases config directive. Suggested by <em>Nymeria<code>@M</code>*U*S*H</em>. [3]</li>
+  <li>&#39;home&#39; is now a standard command, with no special precedence. It can be <code>@command/disabled</code> and/or <code>@hook</code>&#39;d. Suggested by <em>several people</em>. If &#39;home&#39; is disabled, &#39;goto home&#39; will no longer work (but <code>@tel</code> to home is still allowed).</li>
+ </ul>
+
+<h3>Flags</h3>
+
+ <ul>
+  <li>A player with the TRACK_MONEY flag set gets a message any time their objects spend or lose money. Patch by Walker<code>@M</code>*U*S*H.</li>
+  <li>New Pueblo_Send power allows use of xch_cmd and send tags.</li>
+ </ul>
+
+<h3>Mail</h3>
+
+ <ul>
+  <li>The <code>@MAILFORWARDLIST</code> attribute can be set to a list of dbrefs or objids to which any <code>@mail</code> received should be forwarded. Your own dbref may be listed if you wish to retain a copy of the message as well. You must pass the <code>@lock/mailforward</code> of any player listed in your <code>@MAILFORWARDLIST</code>. Suggested by <em>T&#39;orA<code>@M</code>*U*S*H</em>.</li>
+ </ul>
+
+<h3>Functions</h3>
+
+ <ul>
+  <li><code>setq()</code>/<code>setr()</code> can set multiple registers in parallel. Suggested by <em>Nathan Baum</em>. <b>[SW]</b></li>
+  <li><code>center()</code> can now take multi-character fills, and can have different left and right fills. Suggested by <em>Boris<code>@M</code>*U*S*H</em>.</li>
+  <li><code>attrib_set()</code> is a version of <code>set()</code> for setting attributes that has a more comfortable syntax and that can clear attributes without wiping whole attribute trees like <code>wipe()</code>. Suggested by <em>Kevin<code>@M</code>*U*S*H</em>. <b>[TAP]</b></li>
+  <li><code>extract()</code>&#39;s second and third arguments are now optional, and default to 1. Suggested by <em>Philip Mak</em>.</li>
+  <li><code>lsearch()</code> can now take more than one class/restriction pair, and will require them all to be met. New &quot;mindb&quot; and &quot;maxdb&quot; classes specify low and high dbrefs, and replace the old &lt;low&gt;,&lt;high&gt; parameters, which are now deprecated. Suggested by <em>qa&#39;toq<code>@bDv</code></em>.</li>
+  <li><code>alias()</code> and <code>fullalias()</code> functions. <b>[EEH]</b></li>
+  <li>New function restriction &quot;localize&quot; causes q-registers to be saved and restored around the function as if <code>localize()</code> or <code>ulocal()</code> were used; handy for <code>@functions</code>. Patch by grapenut.</li>
+  <li><code>flip()</code> and <code>reverse()</code> no longer require escaping of commas. Suggested by <em>Yar Kramer</em>.</li>
+ </ul>
+
+<h3>Channels</h3>
+
+ <ul>
+  <li>Channels, by default, now ignore interaction rules defined in local.c, so they can be used as &quot;OOC&quot; communication between players who wouldn&#39;t be able to interact &quot;IC&quot;ly. A new per-channel permission, &quot;interact&quot;, changes this behavior back to enforcing interaction rules on the channel. <code>@lock/interact</code> always applies, however. Suggested by <em>Shamash</em>.</li>
+  <li>New channel_flags config directive sets default permissions for newly-created channels.</li>
+ </ul>
+
+<h3>Minor changes</h3>
+
+ <ul>
+  <li>The %+ substitution returns the number of arguments passed to a function and is useful in ufuns and <code>@functions</code>. Suggested by <em>Nathan Baum</em>.</li>
+  <li>The rules for valid command and functions names (e.g. for <code>@command/add</code>) have been relaxed to allow <code>@foo</code>, +blah, and others with punctuation. Suggested by <em>Mike Griffiths</em>.</li>
+  <li><code>@hook/list</code> &lt;command&gt; lists hooks on a command. Suggested by <em>Nathan Baum</em>.</li>
+  <li><code>@INVFORMAT</code> works like <code>@CONFORMAT</code> for the inventory command.</li>
+  <li>Help for mail and chat functions moves to pennmail.hlp and pennchat.hlp, respectively. Suggested by <em>Kevin<code>@M</code>*U*S*H</em>.</li>
+  <li>Settings and resetting multiple attribute flags at once is now supported more flexibly. Suggested by <em>Sholevi<code>@M</code>*U*S*H</em>.</li>
+  <li>The restart script handles mush.cnf files with Windows-style  line endings more gracefully. Reported by <em>CBeilby<code>@M</code>*U*S*H</em>.</li>
+  <li><code>@attribute/access</code> now understands the privilege &#39;none&#39; to mean &#39;no associated attribute flags&#39;. Report by Tyson Cochrane.</li>
+  <li><code>@flag/alias</code> flag=!alias removes a flag alias. Suggested by <em>Relay<code>@MatrixMUSH</code></em>.</li>
+  <li><code>@search</code> now refers to things as things instead of objects. Suggested by <em>Zebranky<code>@M</code>*U*S*H</em>.</li>
+  <li>Suggested restrictions to disable hardcoded chat and mail are in restrictcnf.dst for those who want to do that.  Patch by Kevin<code>@M</code>*U*S*H.</li>
+  <li>TZ attribute is now visual by default, since <code>time()</code> gets it anyway. Suggested by <em>Mike Griffiths</em>.</li>
+ </ul>
+
+<h3>Fixes</h3>
+
+ <ul>
+  <li>Fixes include from versions up to 1.8.0p6.</li>
+ </ul>
+
+</body>
+</html>
